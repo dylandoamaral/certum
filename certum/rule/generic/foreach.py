@@ -4,7 +4,7 @@ from certum.rule.generic.abstract import JsonRule
 
 
 class JsonRuleForeach(JsonRule):
-    """The rule ensuring that a list of rules is respected for each thiss
+    """The rule ensuring that a list of rules is respected for each elements
     of a dict or a list.
 
     :param path: The path where the keys should be presents.

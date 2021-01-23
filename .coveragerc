@@ -1,2 +1,2 @@
 [run]
-omit = pendulum/__version__.py,
+omit = certum/__version__.py,
