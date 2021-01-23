@@ -8,8 +8,8 @@ def args_to_rule_decipher(*args) -> List[JsonRule]:
     """Decipher that figures out what are the type of arguments and try to
     convert them as a list of JsonRule.
 
-    :raises CertumException: in case one of the arguments isn't a JsonRule
-                             complient argument.
+    :raises CertumException: if one argument is not a JsonRule complient
+                             argument.
     :return: The list of json rules.
     :rtype: List[JsonRule]
     """

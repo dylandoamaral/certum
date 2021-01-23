@@ -3,7 +3,7 @@ from typing import Any, Dict
 from certum.rule.generic.abstract import JsonRule
 
 
-class JsonRulelist(JsonRule):
+class JsonRuleList(JsonRule):
     """The rule ensuring that a path is a list.
 
     :param path: The path that should be a list.

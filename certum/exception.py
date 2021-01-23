@@ -1,2 +1,2 @@
 class CertumException(Exception):
-    pass
+    """The certum Exception class"""

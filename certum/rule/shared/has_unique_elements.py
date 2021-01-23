@@ -3,8 +3,8 @@ from typing import Any, Dict
 from certum.rule.generic.abstract import JsonRule
 
 
-class JsonRuleUniquethis(JsonRule):
-    """The rule ensuring that a path has only unique thiss.
+class JsonRuleUniqueElements(JsonRule):
+    """The rule ensuring that a path has only unique elements.
 
     :param path: The path where the key should be present.
     :type path: str
@@ -15,9 +15,9 @@ class JsonRuleUniquethis(JsonRule):
         self.path = path
 
     def check(self, json: Dict[str, Any]):
-        """Check if the path from the corresponding json has unique thiss.
+        """Check if the path from the corresponding json has unique elements.
 
-        :raises AssertionError: if the path doesn't have unique thiss.
+        :raises AssertionError: if the path doesn't have unique elements.
         :param json: The Json to analyse.
         :type json: Dict[str, Any]
         """
