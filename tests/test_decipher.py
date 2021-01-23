@@ -1,7 +1,8 @@
+import pytest
+
+from certum import this
 from certum.decipher import args_to_rule_decipher
 from certum.exception import CertumException
-from certum import this
-import pytest
 
 
 def test_sucess():

@@ -1,6 +1,6 @@
 import pytest
 
-from certum import ensure, that, this
+from certum import ensure, that
 
 
 def test_has_unique_elements_dict_success():

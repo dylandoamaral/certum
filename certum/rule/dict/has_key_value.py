@@ -38,7 +38,5 @@ class JsonRuleKeyEqual(JsonRule):
         JsonRuleDict(self.path).check(json)
         JsonRuleKeyPresent(self.path, self.key).check(json)
         _value = self.target(json)[self.key]
-        message = (
-            f"The key {self.key} is not equal to {self.value} but {_value}."
-        )
+        message = f"The key {self.key} is not equal to {self.value} but {_value}."
         assert _value == self.value, self.error(message)

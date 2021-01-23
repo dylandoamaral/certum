@@ -1,8 +1,9 @@
-from certum.rule.generic.abstract import JsonRule
-from certum import ensure
-from typing import Dict, Any
+from typing import Any, Dict
+
 import pytest
+
 from certum.exception import CertumException
+from certum.rule.generic.abstract import JsonRule
 
 
 class JsonRuleTest(JsonRule):

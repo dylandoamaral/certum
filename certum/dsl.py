@@ -1,13 +1,13 @@
 from typing import Any, List
 
 from certum.decipher import args_to_rule_decipher
-from certum.rule.list.is_list import JsonRulelist
 from certum.rule.dict.contains_key import JsonRuleKeyPresent
 from certum.rule.dict.contains_keys import JsonRuleKeysPresent
 from certum.rule.dict.has_key_type import JsonRuleKeyType
 from certum.rule.dict.has_key_value import JsonRuleKeyEqual
 from certum.rule.dict.is_dict import JsonRuleDict
 from certum.rule.generic.foreach import JsonRuleForeach
+from certum.rule.list.is_list import JsonRulelist
 from certum.rule.shared.equals import JsonRuleEqual
 from certum.rule.shared.has_length_of import JsonRuleLength
 from certum.rule.shared.has_unique_elements import JsonRuleUniquethis

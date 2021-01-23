@@ -31,8 +31,5 @@ class JsonRuleLength(JsonRule):
             # elligible with len function and return an assertion error.
             _length = 1
 
-        message = (
-            f"The length of {self.path} is {_length}"
-            f", expected {self.length}."
-        )
+        message = f"The length of {self.path} is {_length}" f", expected {self.length}."
         assert _length == self.length, self.error(message)

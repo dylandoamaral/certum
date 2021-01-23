@@ -1,5 +1,6 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict
+
 from certum.exception import CertumException
 
 
@@ -44,9 +45,7 @@ class JsonRule(ABC):
                 else:
                     current = current[key]
             except (TypeError, ValueError):
-                raise CertumException(
-                    f"The path {self.path} doesn't not exist"
-                )
+                raise CertumException(f"The path {self.path} doesn't not exist")
         return current
 
     def error(self, message: str) -> str:
