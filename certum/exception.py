@@ -1,0 +1,2 @@
+class CertumException(Exception):
+    pass
