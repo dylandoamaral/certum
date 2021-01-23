@@ -1,5 +1,5 @@
 test:
-	@poetry run pytest --cov=certum --cov-config .coveragerc tests/ -sq
+	@poetry run pytest --cov=certum --cov-config .coveragerc --cov-report=xml tests/
 
 clean:
 	@poetry run black certum tests
