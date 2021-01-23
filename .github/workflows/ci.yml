@@ -1,4 +1,4 @@
-name: Verify Certum structure
+name: Certum Continuous Integration
 
 on:
   push:
@@ -47,5 +47,7 @@ jobs:
       run: |
         source $HOME/.poetry/env
         make test
-    - name: Upload coverage
-      run: bash <(curl -s https://codecov.io/bash)
+    - name: "Upload coverage to Codecov"
+      uses: codecov/codecov-action@v1
+      with:
+        fail_ci_if_error: true
