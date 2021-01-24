@@ -1,5 +1,6 @@
-from typing import Any, Dict
+from typing import Any, Dict, List
 
+from certum.error import Error
 from certum.rule.generic.abstract import JsonRule
 from certum.rule.shared.is_empty import JsonRuleEmpty
 
@@ -15,7 +16,7 @@ class JsonRuleKeyNotEmpty(JsonRule):
         """Constructor method"""
         self.path = path
 
-    def check(self, json: Dict[str, Any]):
+    def check(self, json: Dict[str, Any]) -> List[Error]:
         """Check if the path from the corresponding json is not empty.
 
         Embedded rules:
@@ -24,10 +25,12 @@ class JsonRuleKeyNotEmpty(JsonRule):
         :raises AssertionError: if the path is empty.
         :param json: The Json to analyse.
         :type json: Dict[str, Any]
+        :return: The list of errors catched by the rule, return empty list if
+                 no errors.
+        :rtype: List[Error]
         """
         message = f"The path {self.path} is empty."
-        try:
-            JsonRuleEmpty(self.path).check(json)
-        except AssertionError:
-            return
-        assert False, self.error(message)
+        errors = JsonRuleEmpty(self.path).check(json)
+        if not errors:
+            return [self.error(message)]
+        return []

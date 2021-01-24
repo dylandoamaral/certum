@@ -1,6 +1,8 @@
 import pytest
 
 from certum import ensure, that
+from certum.exception import CertumException
+from tests.utils import assert_error
 
 
 def test_contains_key_success():
@@ -15,6 +17,6 @@ def test_contains_key_failure():
     error."""
     obj = {"x": {"a": 2}}
     validator = ensure(obj).respects(that("x").contains_key("b"))
-    with pytest.raises(AssertionError) as error:
+    with pytest.raises(CertumException) as error:
         validator.check()
-    assert error.value.args[0] == "[x] => The key b is missing."
+    assert_error(error, "[x] => The key b is missing.")

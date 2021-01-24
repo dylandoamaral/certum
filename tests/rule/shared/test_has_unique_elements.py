@@ -1,6 +1,8 @@
 import pytest
 
 from certum import ensure, that
+from certum.exception import CertumException
+from tests.utils import assert_error
 
 
 def test_has_unique_elements_dict_success():
@@ -14,9 +16,9 @@ def test_has_unique_elements_dict_failure():
     """Ensuring that foreach is applied correctly with a failure for a dict."""
     obj = {"x": {"a": 2, "b": 2, "c": 3}}
     validator = ensure(obj).respects(that("x").has_unique_elements())
-    with pytest.raises(AssertionError) as error:
+    with pytest.raises(CertumException) as error:
         validator.check()
-    assert error.value.args[0] == "[x] => The row 0 and 1 are the same."
+    assert_error(error, "[x] => The row 0 and 1 are the same.")
 
 
 def test_has_unique_elements_list_success():
@@ -30,9 +32,9 @@ def test_has_unique_elements_list_failure():
     """Ensuring that foreach is applied correctly with a failure for a dict."""
     obj = {"x": [2, 2, 3]}
     validator = ensure(obj).respects(that("x").has_unique_elements())
-    with pytest.raises(AssertionError) as error:
+    with pytest.raises(CertumException) as error:
         validator.check()
-    assert error.value.args[0] == "[x] => The row 0 and 1 are the same."
+    assert_error(error, "[x] => The row 0 and 1 are the same.")
 
 
 def test_has_unique_elements_other_success():

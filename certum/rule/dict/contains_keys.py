@@ -1,5 +1,6 @@
 from typing import Any, Dict, List
 
+from certum.error import Error
 from certum.rule.dict.contains_key import JsonRuleKeyPresent
 from certum.rule.dict.is_dict import JsonRuleDict
 from certum.rule.generic.abstract import JsonRule
@@ -19,7 +20,7 @@ class JsonRuleKeysPresent(JsonRule):
         self.path = path
         self.keys = keys
 
-    def check(self, json: Dict[str, Any]):
+    def check(self, json: Dict[str, Any]) -> List[Error]:
         """Check if the path from the corresponding json is a dict containing
         the keys inside 'self.keys'.
 
@@ -30,7 +31,11 @@ class JsonRuleKeysPresent(JsonRule):
         :raises AssertionError: if the path's dict doesn't contain the keys.
         :param json: The Json to analyse.
         :type json: Dict[str, Any]
+        :return: The list of errors catched by the rule, return empty list if
+                 no errors.
+        :rtype: List[Error]
         """
-        JsonRuleDict(self.path).check(json)
+        errors = JsonRuleDict(self.path).check(json)
         for key in self.keys:
-            JsonRuleKeyPresent(self.path, key).check(json)
+            errors += JsonRuleKeyPresent(self.path, key).check(json)
+        return errors

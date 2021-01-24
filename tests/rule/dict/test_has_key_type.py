@@ -1,6 +1,8 @@
 import pytest
 
 from certum import ensure, that
+from certum.exception import CertumException
+from tests.utils import assert_error
 
 
 def test_has_key_type_success():
@@ -15,6 +17,6 @@ def test_has_key_type_failure():
     error."""
     obj = {"x": {"a": 2}}
     validator = ensure(obj).respects(that("x").has_key_type("a", str))
-    with pytest.raises(AssertionError) as error:
+    with pytest.raises(CertumException) as error:
         validator.check()
-    assert error.value.args[0] == "[x] => The key a is not an instance of str but int."
+    assert_error(error, "[x] => The key a is not an instance of str but int.")
