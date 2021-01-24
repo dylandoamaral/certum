@@ -1,5 +1,6 @@
-from typing import Any, Dict
+from typing import Any, Dict, List
 
+from certum.error import Error
 from certum.rule.dict.contains_key import JsonRuleKeyPresent
 from certum.rule.dict.is_dict import JsonRuleDict
 from certum.rule.generic.abstract import JsonRule
@@ -22,7 +23,7 @@ class JsonRuleKeyEqual(JsonRule):
         self.key = key
         self.value = value
 
-    def check(self, json: Dict[str, Any]):
+    def check(self, json: Dict[str, Any]) -> List[Error]:
         """Check if the path from the corresponding json is a dict containing
         the key 'self.key' of value 'self.value'.
 
@@ -34,9 +35,14 @@ class JsonRuleKeyEqual(JsonRule):
                                 incorrect value.
         :param json: The Json to analyse.
         :type json: Dict[str, Any]
+        :return: The list of errors catched by the rule, return empty list if
+                 no errors.
+        :rtype: List[Error]
         """
-        JsonRuleDict(self.path).check(json)
-        JsonRuleKeyPresent(self.path, self.key).check(json)
+        errors = JsonRuleDict(self.path).check(json)
+        errors += JsonRuleKeyPresent(self.path, self.key).check(json)
         _value = self.target(json)[self.key]
         message = f"The key {self.key} is not equal to {self.value} but {_value}."
-        assert _value == self.value, self.error(message)
+        if _value != self.value:
+            errors.append(self.error(message))
+        return errors

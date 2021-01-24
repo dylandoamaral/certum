@@ -1,5 +1,6 @@
-from typing import Any, Dict
+from typing import Any, Dict, List
 
+from certum.error import Error
 from certum.rule.generic.abstract import JsonRule
 
 
@@ -17,12 +18,15 @@ class JsonRuleLength(JsonRule):
         self.path = path
         self.length = length
 
-    def check(self, json: Dict[str, Any]):
+    def check(self, json: Dict[str, Any]) -> List[Error]:
         """Check if the path from the corresponding has a particular length.
 
         :raises AssertionError: if the path doesn't have a particular length.
         :param json: The Json to analyse.
         :type json: Dict[str, Any]
+        :return: The list of errors catched by the rule, return empty list if
+                 no errors.
+        :rtype: List[Error]
         """
         try:
             _length = len(self.target(json))
@@ -32,4 +36,6 @@ class JsonRuleLength(JsonRule):
             _length = 1
 
         message = f"The length of {self.path} is {_length}" f", expected {self.length}."
-        assert _length == self.length, self.error(message)
+        if _length != self.length:
+            return [self.error(message)]
+        return []

@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
-from typing import Any, Dict
+from typing import Any, Dict, List
 
+from certum.error import Error
 from certum.exception import CertumException
 
 
@@ -48,7 +49,7 @@ class JsonRule(ABC):
                 raise CertumException(f"The path {self.path} doesn't not exist")
         return current
 
-    def error(self, message: str) -> str:
+    def error(self, message: str) -> Error:
         """Format error message throws by the assertion.
 
         :param message: The cause of the error.
@@ -56,10 +57,10 @@ class JsonRule(ABC):
         :return: The formatted message.
         :rtype: str
         """
-        return f"[{self.path}] => {message}"
+        return Error(self.path, message)
 
     @abstractmethod
-    def check(self, json: Dict[str, Any]):
+    def check(self, json: Dict[str, Any]) -> List[Error]:
         """Check if the rule is respected.
 
         :raises AssertionError: if the rule is not respected.

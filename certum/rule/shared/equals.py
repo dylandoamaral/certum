@@ -1,5 +1,6 @@
-from typing import Any, Dict
+from typing import Any, Dict, List
 
+from certum.error import Error
 from certum.rule.generic.abstract import JsonRule
 
 
@@ -17,13 +18,18 @@ class JsonRuleEqual(JsonRule):
         self.path = path
         self.value = value
 
-    def check(self, json: Dict[str, Any]):
+    def check(self, json: Dict[str, Any]) -> List[Error]:
         """Check if the path from the corresponding json equal a value.
 
         :raises AssertionError: if the path doesn't equal the value.
         :param json: The Json to analyse.
         :type json: Dict[str, Any]
+        :return: The list of errors catched by the rule, return empty list if
+                 no errors.
+        :rtype: List[Error]
         """
         _value = self.target(json)
         message = f"{self.value} is not equal to {_value}."
-        assert _value == self.value, self.error(message)
+        if _value != self.value:
+            return [self.error(message)]
+        return []
