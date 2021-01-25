@@ -61,4 +61,4 @@ class JsonValidator:
         errors = [err for rule in self.rules for err in rule.check(self.json)]
         errors = sorting.sort(errors)
         if errors:
-            raise CertumException(printing.print(errors))
+            raise CertumException(f"\n\n{printing.print(errors)}")
