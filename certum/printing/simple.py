@@ -13,7 +13,7 @@ class SimplePrinting(PrintingStrategy):
         :return: The stringigy version of errors.
         :rtype: str
         """
-        message = "\n\n"
+        message = ""
         for error in errors:
             message += f"[{error.path}] => {error.message}\n"
         return message
