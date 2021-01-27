@@ -6,7 +6,7 @@ from certum.printing.abstract import PrintingStrategy
 from certum.printing.simple import SimplePrinting
 from certum.rule.generic.abstract import JsonRule
 from certum.sorting.abstract import SortingStrategy
-from certum.sorting.alphabetical import AlphabeticalSorting
+from certum.sorting.no import NoSorting
 
 
 class JsonValidator:
@@ -44,14 +44,14 @@ class JsonValidator:
 
     def check(
         self,
-        sorting: SortingStrategy = AlphabeticalSorting(),
+        sorting: SortingStrategy = NoSorting(),
         printing: PrintingStrategy = SimplePrinting(),
     ):
         """Check all provided rules and throw an error if at least one of them
         is not respected.
 
         :param sorting: The sorting strategy used to sort errors, defaults to
-                        AlphabeticalSorting()
+                        NoSorting()
         :type sorting: SortingStrategy, optional
         :param printing: The printing strategy used to print errors, defaults to
                          SimplePrinting()
