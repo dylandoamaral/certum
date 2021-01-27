@@ -30,7 +30,7 @@ def generate_errors(number_of_errors: int, depth: int) -> List[Error]:
     :rtype: List[Error]
     """
     errors = []
-    for i in range(0, number_of_errors):
+    for _ in range(0, number_of_errors):
         possibilities = string.ascii_letters + str(range(0, 20))
         keys = [choice(possibilities) for i in range(0, randint(1, depth))]
         errors.append(Error(" -> ".join(keys), ""))
