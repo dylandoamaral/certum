@@ -20,7 +20,7 @@ class JsonRuleDsl:
     Entry point of the dsl
     """
 
-    def __init__(self, path: str) -> None:
+    def __init__(self, path: List[str]) -> None:
         """Constructor method"""
         self.path = path
 

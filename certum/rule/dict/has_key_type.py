@@ -10,14 +10,14 @@ class JsonRuleKeyType(JsonRule):
     """The rule ensuring that a key inside a path has a particular type.
 
     :param path: The path where the key should be present.
-    :type path: str
+    :type path: List[str]
     :param key: The key itself.
     :type key: str
     :param value: The type of the key.
     :type value: Any
     """
 
-    def __init__(self, path: str, key: str, value: Any):
+    def __init__(self, path: List[str], key: str, value: Any):
         """Constructor method"""
         self.path = path
         self.key = key

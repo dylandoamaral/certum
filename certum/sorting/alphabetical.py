@@ -1,10 +1,11 @@
-import operator
 from typing import List
+from dataclasses import dataclass
 
 from certum.error import Error
 from certum.sorting.abstract import SortingStrategy
 
 
+@dataclass
 class AlphabeticalSorting(SortingStrategy):
     def sort(self, errors: List[Error]) -> List[Error]:
         """Sort a list of errors alphabeticaly.
@@ -23,4 +24,4 @@ class AlphabeticalSorting(SortingStrategy):
         :return: The list of errors sorted.
         :rtype: List[Error]
         """
-        return sorted(errors, key=operator.attrgetter("path"))
+        return sorted(errors, key=lambda error: "".join(error.path))

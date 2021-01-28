@@ -10,12 +10,12 @@ class JsonRuleKeysPresent(JsonRule):
     """The rule ensuring that keys are presents inside a path.
 
     :param path: The path where the keys should be presents.
-    :type path: str
+    :type path: List[str]
     :param keys: The keys itselves.
     :type keys: List[str]
     """
 
-    def __init__(self, path: str, keys: List[str]):
+    def __init__(self, path: List[str], keys: List[str]):
         """Constructor method"""
         self.path = path
         self.keys = keys

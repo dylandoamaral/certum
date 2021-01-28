@@ -1,10 +1,15 @@
 from typing import List
+from dataclasses import dataclass
 
 from certum.error import Error
 from certum.printing.abstract import PrintingStrategy
 
 
+@dataclass
 class SimplePrinting(PrintingStrategy):
+
+    key_separator: str = " -> "
+
     def print(self, errors: List[Error]) -> str:
         """Print a list of errors based on the printing strategy.
 
@@ -15,5 +20,6 @@ class SimplePrinting(PrintingStrategy):
         """
         message = ""
         for error in errors:
-            message += f"[{error.path}] => {error.message}\n"
+            path = self.key_separator.join(error.path)
+            message += f"[{path}] => {error.message}\n"
         return message

@@ -9,12 +9,12 @@ class JsonRuleForeach(JsonRule):
     of a dict or a list.
 
     :param path: The path where the keys should be presents.
-    :type path: str
-    :param keys: The keys itselves.
-    :type keys: List[str]
+    :type path: List[str]
+    :param rules: The rules that should be applied.
+    :type keys: List[JsonRule]
     """
 
-    def __init__(self, path: str, rules: List[JsonRule]):
+    def __init__(self, path: List[str], rules: List[JsonRule]):
         """Constructor method"""
         self.path = path
         self.rules = rules
@@ -35,10 +35,10 @@ class JsonRuleForeach(JsonRule):
         for rule in self.rules.copy():
             rule_path = rule.path
             for index, child in enumerate(values):
-                key = index if isinstance(target, list) else child
-                if rule_path:
-                    rule.path = f"{self.path} -> {key} -> {rule_path}"
+                key = str(index) if isinstance(target, list) else child
+                if rule_path != [""]:
+                    rule.path = self.path + [key] + rule_path
                 else:
-                    rule.path = f"{self.path} -> {key}"
+                    rule.path = self.path + [key]
                 errors += rule.check(json)
         return errors

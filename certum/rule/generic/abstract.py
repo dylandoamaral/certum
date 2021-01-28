@@ -11,10 +11,10 @@ class JsonRule(ABC):
     It provides the error system and the target function.
 
     :param path: The path targeted by the rule.
-    :type path: str
+    :type path: List[str]
     """
 
-    def __init__(self, path: str):
+    def __init__(self, path: List[str]):
         """Constructor method"""
         self.path = path
 
@@ -37,16 +37,16 @@ class JsonRule(ABC):
         """
         if not self.path:
             return json
-        keys = self.path.split(" -> ")
         current = json
-        for key in keys:
+        for key in self.path:
             try:
                 if isinstance(current, list):
                     current = current[int(key)]
                 else:
                     current = current[key]
             except (TypeError, ValueError):
-                raise CertumException(f"The path {self.path} doesn't not exist")
+                path = " -> ".join(self.path)
+                raise CertumException(f"The path {path} doesn't not exist")
         return current
 
     def error(self, message: str) -> Error:
