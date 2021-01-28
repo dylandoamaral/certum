@@ -1,6 +1,6 @@
 from collections import OrderedDict
-from typing import Dict, List
 from dataclasses import dataclass
+from typing import Dict, List
 
 from certum.error import Error
 from certum.printing.abstract import PrintingStrategy
