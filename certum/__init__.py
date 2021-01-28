@@ -15,7 +15,7 @@ def that(path: str) -> JsonRuleDsl:
     :return: The dsl object that provides certum rules.
     :rtype: JsonRuleDsl
     """
-    return JsonRuleDsl(path)
+    return JsonRuleDsl(path.split(" -> "))
 
 
 this = that("")

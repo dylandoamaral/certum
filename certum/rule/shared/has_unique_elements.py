@@ -8,10 +8,10 @@ class JsonRuleUniqueElements(JsonRule):
     """The rule ensuring that a path has only unique elements.
 
     :param path: The path where the key should be present.
-    :type path: str
+    :type path: List[str]
     """
 
-    def __init__(self, path: str):
+    def __init__(self, path: List[str]):
         """Constructor method"""
         self.path = path
 

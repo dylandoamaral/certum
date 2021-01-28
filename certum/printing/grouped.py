@@ -1,11 +1,16 @@
 from collections import OrderedDict
+from dataclasses import dataclass
 from typing import Dict, List
 
 from certum.error import Error
 from certum.printing.abstract import PrintingStrategy
 
 
+@dataclass
 class GroupedPrinting(PrintingStrategy):
+
+    key_separator: str = " -> "
+
     def print(self, errors: List[Error]) -> str:
         """Print a list of errors based on the printing strategy.
 

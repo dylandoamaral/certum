@@ -16,7 +16,7 @@ class JsonValidator:
     .. warning:: You should always use `certum.that` to create a validator.
 
     :param path: The path where the key should be present.
-    :type path: str
+    :type path: List[str]
     :param key: The key itself.
     :type key: str
     """

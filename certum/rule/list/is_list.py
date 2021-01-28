@@ -8,10 +8,10 @@ class JsonRuleList(JsonRule):
     """The rule ensuring that a path is a list.
 
     :param path: The path that should be a list.
-    :type path: str
+    :type path: List[str]
     """
 
-    def __init__(self, path: str):
+    def __init__(self, path: List[str]):
         """Constructor method"""
         self.path = path
 
@@ -25,7 +25,8 @@ class JsonRuleList(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
-        message = f"The path {self.path} is not a list."
+        path = " -> ".join(self.path)
+        message = f"The path {path} is not a list."
         if not isinstance(self.target(json), list):
             return [self.error(message)]
         return []

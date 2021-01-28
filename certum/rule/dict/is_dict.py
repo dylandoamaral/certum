@@ -8,10 +8,10 @@ class JsonRuleDict(JsonRule):
     """The rule ensuring that a path is a dict.
 
     :param path: The path that should be a dict.
-    :type path: str
+    :type path: List[str]
     """
 
-    def __init__(self, path: str):
+    def __init__(self, path: List[str]):
         """Constructor method"""
         self.path = path
 
@@ -24,7 +24,8 @@ class JsonRuleDict(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
-        message = f"The path {self.path} is not a dict."
+        path = " -> ".join(self.path)
+        message = f"The path {path} is not a dict."
         if not isinstance(self.target(json), dict):
             return [self.error(message)]
         return []

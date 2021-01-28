@@ -8,12 +8,12 @@ class JsonRuleLength(JsonRule):
     """The rule ensuring that a path has a particular length.
 
     :param path: The path where the key should be present.
-    :type path: str
+    :type path: List[str]
     :param value: The length of the this of the path.
     :type value: int
     """
 
-    def __init__(self, path: str, length: int):
+    def __init__(self, path: List[str], length: int):
         """Constructor method"""
         self.path = path
         self.length = length
@@ -35,7 +35,8 @@ class JsonRuleLength(JsonRule):
             # elligible with len function and return an assertion error.
             _length = 1
 
-        message = f"The length of {self.path} is {_length}" f", expected {self.length}."
+        path = " -> ".join(self.path)
+        message = f"The length of {path} is {_length}" f", expected {self.length}."
         if _length != self.length:
             return [self.error(message)]
         return []

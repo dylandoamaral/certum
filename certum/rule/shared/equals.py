@@ -8,12 +8,12 @@ class JsonRuleEqual(JsonRule):
     """The rule ensuring that a path has a particular value.
 
     :param path: The path where the key should be present.
-    :type path: str
+    :type path: List[str]
     :param value: The value of the path.
     :type value: Any
     """
 
-    def __init__(self, path: str, value: Any):
+    def __init__(self, path: List[str], value: Any):
         """Constructor method"""
         self.path = path
         self.value = value

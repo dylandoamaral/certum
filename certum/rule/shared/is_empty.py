@@ -8,10 +8,10 @@ class JsonRuleEmpty(JsonRule):
     """The rule ensuring that a path is empty.
 
     :param path: The path that should be empty.
-    :type path: str
+    :type path: List[str]
     """
 
-    def __init__(self, path: str):
+    def __init__(self, path: List[str]):
         """Constructor method"""
         self.path = path
 
@@ -27,7 +27,8 @@ class JsonRuleEmpty(JsonRule):
         """
         empty_possibilities = ["", None, [], {}]
         value = self.target(json)
-        message = f"The path {self.path} is not empty."
+        path = " -> ".join(self.path)
+        message = f"The path {path} is not empty."
         if value not in empty_possibilities:
             return [self.error(message)]
         return []
