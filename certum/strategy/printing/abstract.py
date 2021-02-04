@@ -1,10 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import List
 
 from certum.error import Error
+from certum.strategy.abstract import Strategy
 
 
-class PrintingStrategy(ABC):
+class PrintingStrategy(Strategy):
     @abstractmethod
     def print(self, errors: List[Error]) -> str:
         """Print a list of errors based on the printing strategy.

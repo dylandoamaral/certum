@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 from certum.error import Error
-from certum.sorting.abstract import SortingStrategy
+from certum.strategy.sorting.abstract import SortingStrategy
 
 
 @dataclass

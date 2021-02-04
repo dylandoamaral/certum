@@ -1,5 +1,5 @@
 from certum.error import Error
-from certum.printing.grouped import GroupedPrinting
+from certum.strategy.printing.grouped import GroupedPrinting
 
 
 def test_grouped_simple():

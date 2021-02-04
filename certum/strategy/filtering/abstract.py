@@ -1,10 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import List
 
 from certum.error import Error
+from certum.strategy.abstract import Strategy
 
 
-class FilteringStrategy(ABC):
+class FilteringStrategy(Strategy):
     @abstractmethod
     def filter(self, errors: List[Error]) -> List[Error]:
         """Filter a list of errors based on the filtering strategy.

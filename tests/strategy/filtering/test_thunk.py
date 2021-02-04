@@ -1,7 +1,7 @@
 import pytest
 
 from certum.error import Error
-from certum.filtering.thunk import ThunkFiltering
+from certum.strategy.filtering.thunk import ThunkFiltering
 
 
 @pytest.mark.parametrize(

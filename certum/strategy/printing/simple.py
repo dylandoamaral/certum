@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 from certum.error import Error
-from certum.printing.abstract import PrintingStrategy
+from certum.strategy.printing.abstract import PrintingStrategy
 
 
 @dataclass

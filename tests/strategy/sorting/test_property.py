@@ -2,8 +2,8 @@ from random import shuffle
 
 import pytest
 
-from certum.sorting.alphabetical import AlphabeticalSorting
-from certum.sorting.alphanumerical import AlphanumericalSorting
+from certum.strategy.sorting.alphabetical import AlphabeticalSorting
+from certum.strategy.sorting.alphanumerical import AlphanumericalSorting
 from tests.utils import generate_errors
 
 startegies = [AlphabeticalSorting(), AlphanumericalSorting()]

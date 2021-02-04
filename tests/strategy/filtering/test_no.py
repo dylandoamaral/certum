@@ -1,4 +1,4 @@
-from certum.filtering.no import NoFiltering
+from certum.strategy.filtering.no import NoFiltering
 from tests.utils import generate_errors
 
 

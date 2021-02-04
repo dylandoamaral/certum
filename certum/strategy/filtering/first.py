@@ -2,17 +2,17 @@ from dataclasses import dataclass
 from typing import List
 
 from certum.error import Error
-from certum.filtering.abstract import FilteringStrategy
+from certum.strategy.filtering.abstract import FilteringStrategy
 
 
 @dataclass
-class NoFiltering(FilteringStrategy):
+class FirstFiltering(FilteringStrategy):
     def filter(self, errors: List[Error]) -> List[Error]:
-        """Keep all errors.
+        """Keep only the first error.
 
         :param errors: The list of errors to filters.
         :type errors: List[Error]
-        :return: All the errors.
+        :return: The first error.
         :rtype: List[Error]
         """
-        return errors
+        return [errors[0]]

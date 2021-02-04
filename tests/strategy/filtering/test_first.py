@@ -1,4 +1,4 @@
-from certum.filtering.first import FirstFiltering
+from certum.strategy.filtering.first import FirstFiltering
 from tests.utils import generate_errors
 
 

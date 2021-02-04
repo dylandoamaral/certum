@@ -1,5 +1,5 @@
 from certum.error import Error
-from certum.sorting.alphabetical import AlphabeticalSorting
+from certum.strategy.sorting.alphabetical import AlphabeticalSorting
 
 
 def test_alphabetical_one_depth():

@@ -1,10 +1,11 @@
-from abc import ABC, abstractmethod
+from abc import abstractmethod
 from typing import List
 
 from certum.error import Error
+from certum.strategy.abstract import Strategy
 
 
-class SortingStrategy(ABC):
+class SortingStrategy(Strategy):
     @abstractmethod
     def sort(self, errors: List[Error]) -> List[Error]:
         """Sort a list of errors based on the sorting strategy.
