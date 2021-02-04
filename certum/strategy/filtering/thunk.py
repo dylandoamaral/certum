@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import List
 
 from certum.error import Error
-from certum.filtering.abstract import FilteringStrategy
+from certum.strategy.filtering.abstract import FilteringStrategy
 
 
 @dataclass
