@@ -1,13 +1,13 @@
 import pytest
 
 from certum import ensure, that
-from certum.strategy.filtering.no import NoFiltering
+from certum.exception import CertumException
 from certum.strategy.filtering.first import FirstFiltering
-from certum.strategy.printing.simple import SimplePrinting
+from certum.strategy.filtering.no import NoFiltering
 from certum.strategy.printing.grouped import GroupedPrinting
+from certum.strategy.printing.simple import SimplePrinting
 from certum.strategy.sorting.alphanumerical import AlphanumericalSorting
 from certum.strategy.sorting.no import NoSorting
-from certum.exception import CertumException
 
 
 def test_respects():
