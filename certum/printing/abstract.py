@@ -9,8 +9,8 @@ class PrintingStrategy(ABC):
     def print(self, errors: List[Error]) -> str:
         """Print a list of errors based on the printing strategy.
 
-        :param errors: The list of errors to sort.
+        :param errors: The list of errors to print.
         :type errors: List[Error]
-        :return: The stringigy version of errors.
+        :return: The stringify version of errors.
         :rtype: str
         """

@@ -2,6 +2,8 @@ from typing import Any, Dict, List
 
 from certum.decipher import args_to_rule_decipher
 from certum.exception import CertumException
+from certum.filtering.abstract import FilteringStrategy
+from certum.filtering.no import NoFiltering
 from certum.printing.abstract import PrintingStrategy
 from certum.printing.simple import SimplePrinting
 from certum.rule.generic.abstract import JsonRule
@@ -45,6 +47,7 @@ class JsonValidator:
     def check(
         self,
         sorting: SortingStrategy = NoSorting(),
+        filtering: FilteringStrategy = NoFiltering(),
         printing: PrintingStrategy = SimplePrinting(),
     ):
         """Check all provided rules and throw an error if at least one of them
@@ -53,12 +56,16 @@ class JsonValidator:
         :param sorting: The sorting strategy used to sort errors, defaults to
                         NoSorting()
         :type sorting: SortingStrategy, optional
-        :param printing: The printing strategy used to print errors, defaults to
-                         SimplePrinting()
-        :type printing: PrintingStrategy, optional
+        :param filtering: The sorting strategy used to sort errors, defaults to
+                        NoSorting()
+        :type filtering: FilteringStrategy, optional
+        :param printing: The filtering strategy used to filter errors, defaults to
+                         NoFiltering()
+        :type printing: FilteringStrategy, optional
         :raises CertumException: if at least one rule is not respected.
         """
         errors = [err for rule in self.rules for err in rule.check(self.json)]
         errors = sorting.sort(errors)
+        errors = filtering.filter(errors)
         if errors:
             raise CertumException(f"\n\n{printing.print(errors)}")
