@@ -94,8 +94,6 @@ class JsonValidator:
         :type printing: FilteringStrategy, optional
         :raises CertumException: if at least one rule is not respected.
         """
-        if not self.json:
-            raise CertumException("The validator should contain a JSON.")
         errors = [err for rule in self.rules for err in rule.check(self.json)]
         errors = self.sorting.sort(errors)
         errors = self.filtering.filter(errors)
