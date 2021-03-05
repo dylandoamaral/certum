@@ -12,7 +12,8 @@ from certum.rule.shared.equals import JsonRuleEqual
 from certum.rule.shared.has_length_of import JsonRuleLength
 from certum.rule.shared.has_unique_elements import JsonRuleUniqueElements
 from certum.rule.shared.is_empty import JsonRuleEmpty
-from certum.rule.shared.is_not_empty import JsonRuleKeyNotEmpty
+from certum.rule.shared.is_instance_of import JsonRuleInstanceOf
+from certum.rule.shared.is_not_empty import JsonRuleNotEmpty
 
 
 class JsonRuleDsl:
@@ -57,13 +58,21 @@ class JsonRuleDsl:
         """
         return JsonRuleEmpty(self.path)
 
-    def is_not_empty(self) -> JsonRuleKeyNotEmpty:
+    def is_not_empty(self) -> JsonRuleNotEmpty:
         """Check if the current path is not empty.
 
         :return: The JsonRule related with this rule.
-        :rtype: JsonRuleKeyNotEmpty
+        :rtype: JsonRuleNotEmpty
         """
-        return JsonRuleKeyNotEmpty(self.path)
+        return JsonRuleNotEmpty(self.path)
+
+    def is_instance_of(self, type_: type) -> JsonRuleNotEmpty:
+        """Check if the current path is instance of a type type_.
+
+        :return: The JsonRule related with this rule.
+        :rtype: JsonRuleNotEmpty
+        """
+        return JsonRuleInstanceOf(self.path, type_)
 
     def has_length_of(self, length: int) -> JsonRuleLength:
         """Check if the current path has a specific length.

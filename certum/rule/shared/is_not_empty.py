@@ -5,7 +5,7 @@ from certum.rule.generic.abstract import JsonRule
 from certum.rule.shared.is_empty import JsonRuleEmpty
 
 
-class JsonRuleKeyNotEmpty(JsonRule):
+class JsonRuleNotEmpty(JsonRule):
     """The rule ensuring that a path is not empty.
 
     :param path: The path that should not be empty.
