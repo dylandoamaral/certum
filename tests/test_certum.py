@@ -39,4 +39,4 @@ def test_using():
     "The using function should create an empty JsonValidator with selected strategies."
     validator = using(ThunkFiltering())
     assert isinstance(validator.filtering, ThunkFiltering)
-    assert validator.json == None
+    assert validator.json is None
