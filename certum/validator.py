@@ -1,10 +1,10 @@
 from dataclasses import dataclass, field
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Optional
 
 from certum.decipher import args_to_rule_decipher
 from certum.exception import CertumException
+from certum.private import _using
 from certum.rule.generic.abstract import JsonRule
-from certum.strategy.abstract import Strategy
 from certum.strategy.filtering.abstract import FilteringStrategy
 from certum.strategy.filtering.no import NoFiltering
 from certum.strategy.printing.abstract import PrintingStrategy
@@ -32,7 +32,7 @@ class JsonValidator:
     :type printing: PrintingStrategy
     """
 
-    json: Dict[str, Any]
+    json: Optional[Dict[str, Any]] = None
     rules: List[JsonRule] = field(default_factory=list)
     sorting: SortingStrategy = NoSorting()
     filtering: FilteringStrategy = NoFiltering()
@@ -63,32 +63,21 @@ class JsonValidator:
         :return: Itself.
         :rtype: JsonValidator
         """
+        return _using(*args, validator=self)
 
-        def setup_strategy(validator, strategy) -> "JsonValidator":
-            if isinstance(strategy, SortingStrategy):
-                validator.sorting = strategy
-            elif isinstance(strategy, FilteringStrategy):
-                validator.filtering = strategy
-            elif isinstance(strategy, PrintingStrategy):
-                validator.printing = strategy
-            else:
-                raise CertumException(
-                    "The strategy provided for the validator is uknown."
-                )
-            return validator
+    def on(self, json: Dict[str, Any]) -> "JsonValidator":  # pylint: disable=C0103
+        """Attribute a new json to analyse by the validator.
 
-        for arg in args:
-            if isinstance(arg, list):
-                for strategy in arg:
-                    setup_strategy(self, strategy)
-            elif isinstance(arg, Strategy):
-                setup_strategy(self, arg)
-            else:
-                raise CertumException(
-                    "The strategy provided for the validator is uknown."
-                )
-
-        return self
+        :param json: The json to analyse.
+        :type json: Dict[str, Any]
+        :return: Itself.
+        :rtype: JsonValidator
+        """
+        if not isinstance(json, dict):
+            raise CertumException("JsonValidator need a json of type dict.")
+        return JsonValidator(
+            json, self.rules, self.sorting, self.filtering, self.printing
+        )
 
     def check(self):
         """Check all provided rules and throw an error if at least one of them
@@ -105,6 +94,8 @@ class JsonValidator:
         :type printing: FilteringStrategy, optional
         :raises CertumException: if at least one rule is not respected.
         """
+        if not self.json:
+            raise CertumException("The validator should contain a JSON.")
         errors = [err for rule in self.rules for err in rule.check(self.json)]
         errors = self.sorting.sort(errors)
         errors = self.filtering.filter(errors)

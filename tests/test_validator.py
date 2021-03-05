@@ -1,6 +1,6 @@
 import pytest
 
-from certum import ensure, that
+from certum import ensure, that, using
 from certum.exception import CertumException
 from certum.strategy.filtering.first import FirstFiltering
 from certum.strategy.filtering.no import NoFiltering
@@ -59,3 +59,17 @@ def test_using_list_fail():
     """Using should return an error if an uknown strategy is provided inside a list."""
     with pytest.raises(CertumException):
         ensure({}).using([3])
+
+
+def test_on():
+    """On should assign a new json to the validator."""
+    obj = {"a": "b"}
+    validator = using(AlphanumericalSorting()).on(obj)
+    assert validator.json == obj
+
+
+def test_on_fail():
+    """On should return an error if the new json is not a dict."""
+    obj = "hello"
+    with pytest.raises(CertumException):
+        using(AlphanumericalSorting()).on(obj)

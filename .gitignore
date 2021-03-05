@@ -35,3 +35,6 @@ setup.py
 
 # Editor
 .vscode
+
+# Personal
+.venv
