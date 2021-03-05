@@ -5,7 +5,7 @@ from certum.exception import CertumException
 from tests.utils import assert_error
 
 
-def test_empty_success():
+def test_is_not_empty_success():
     """Ensuring that x is not empty."""
     obj = {"x": 2}
     validator = ensure(obj).respects(that("x").is_not_empty())
@@ -16,7 +16,7 @@ def test_empty_success():
     "empty",
     [None, {}, [], ""],
 )
-def test_empty_failure(empty):
+def test_is_not_empty_failure(empty):
     """Ensuring that x is empty."""
     obj = {"x": empty}
     validator = ensure(obj).respects(that("x").is_not_empty())

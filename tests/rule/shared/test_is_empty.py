@@ -9,14 +9,14 @@ from tests.utils import assert_error
     "empty",
     [None, {}, [], ""],
 )
-def test_empty_success(empty):
+def test_is_empty_success(empty):
     """Ensuring that x is empty."""
     obj = {"x": empty}
     validator = ensure(obj).respects(that("x").is_empty())
     validator.check()
 
 
-def test_empty_failure():
+def test_is_empty_failure():
     """Ensuring that x is not empty."""
     obj = {"x": 2}
     validator = ensure(obj).respects(that("x").is_empty())
