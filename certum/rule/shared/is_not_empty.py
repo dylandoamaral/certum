@@ -1,11 +1,11 @@
 from typing import Any, Dict, List
 
 from certum.error import Error
-from certum.rule.generic.abstract import JsonRule
-from certum.rule.shared.is_empty import JsonRuleEmpty
+from certum.rule.generic.abstract import DictRule
+from certum.rule.shared.is_empty import DictRuleEmpty
 
 
-class JsonRuleNotEmpty(JsonRule):
+class DictRuleNotEmpty(DictRule):
     """The rule ensuring that a path is not empty.
 
     :param path: The path that should not be empty.
@@ -16,25 +16,25 @@ class JsonRuleNotEmpty(JsonRule):
         """Constructor method"""
         self.path = path
 
-    def check(self, json: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding json is not empty.
+    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
+        """Check if the path from the corresponding dictionary is not empty.
 
         Embedded rules:
-            - :class:`certum.rule.shared.is_empty.JsonRuleEmpty`
+            - :class:`certum.rule.shared.is_empty.DictRuleEmpty`
 
         :raises AssertionError: if the path is empty.
-        :param json: The Json to analyse.
-        :type json: Dict[str, Any]
+        :param dictionary: The Dict to analyse.
+        :type dictionary: Dict[str, Any]
         :return: The list of errors catched by the rule, return empty list if
                  no errors.
         :rtype: List[Error]
         """
-        errors = super().check(json)
+        errors = super().check(dictionary)
         if errors:
             return errors
         path = " -> ".join(self.path)
         message = f"The path {path} is empty."
-        error = JsonRuleEmpty(self.path).check(json)
+        error = DictRuleEmpty(self.path).check(dictionary)
         if not error:
             errors.append(self.error(message))
         return errors

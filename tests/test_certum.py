@@ -1,16 +1,16 @@
 import pytest
 
 from certum import ensure, that, this, using
-from certum.dsl import JsonRuleDsl
+from certum.dsl import DictRuleDsl
 from certum.exception import CertumException
 from certum.strategy.filtering.thunk import ThunkFiltering
-from certum.validator import JsonValidator
+from certum.validator import DictValidator
 
 
 def test_ensure():
-    "The ensure function should create a default JsonValidator."
+    "The ensure function should create a default DictValidator."
     validator = ensure({})
-    assert isinstance(validator, JsonValidator)
+    assert isinstance(validator, DictValidator)
 
 
 def test_ensure_fail():
@@ -20,23 +20,23 @@ def test_ensure_fail():
 
 
 def test_that():
-    "The that function should create a JsonRuleDsl that targets a path."
+    "The that function should create a DictRuleDsl that targets a path."
     element = that("a -> b")
-    assert isinstance(element, JsonRuleDsl)
+    assert isinstance(element, DictRuleDsl)
     assert element.path == ["a", "b"]
 
 
 def test_this():
-    "The that function should create a JsonRuleDsl that targets the root."
+    "The that function should create a DictRuleDsl that targets the root."
     element = this
-    assert isinstance(element, JsonRuleDsl)
+    assert isinstance(element, DictRuleDsl)
     assert element.path == []
     validator = ensure({"a": "b"}).respects(this.has_key_value("a", "b"))
     validator.check()
 
 
 def test_using():
-    "The using function should create an empty JsonValidator with selected strategies."
+    "The using function should create an empty DictValidator with selected strategies."
     validator = using(ThunkFiltering())
     assert isinstance(validator.filtering, ThunkFiltering)
-    assert validator.json is None
+    assert validator.dictionary is None

@@ -62,14 +62,14 @@ def test_using_list_fail():
 
 
 def test_on():
-    """On should assign a new json to the validator."""
+    """On should assign a new dictionary to the validator."""
     obj = {"a": "b"}
     validator = using(AlphanumericalSorting()).on(obj)
-    assert validator.json == obj
+    assert validator.dictionary == obj
 
 
 def test_on_fail():
-    """On should return an error if the new json is not a dict."""
+    """On should return an error if the new dictionary is not a dict."""
     obj = "hello"
     with pytest.raises(CertumException):
         using(AlphanumericalSorting()).on(obj)

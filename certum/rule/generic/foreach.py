@@ -1,38 +1,38 @@
 from typing import Any, Dict, List
 
 from certum.error import Error
-from certum.rule.generic.abstract import JsonRule
+from certum.rule.generic.abstract import DictRule
 
 
-class JsonRuleForeach(JsonRule):
+class DictRuleForeach(DictRule):
     """The rule ensuring that a list of rules is respected for each elements
     of a dict or a list.
 
     :param path: The path where the keys should be presents.
     :type path: List[str]
     :param rules: The rules that should be applied.
-    :type keys: List[JsonRule]
+    :type keys: List[DictRule]
     """
 
-    def __init__(self, path: List[str], rules: List[JsonRule]):
+    def __init__(self, path: List[str], rules: List[DictRule]):
         """Constructor method"""
         self.path = path
         self.rules = rules
 
-    def check(self, json: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding json respect a list of
+    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
+        """Check if the path from the corresponding dictionary respect a list of
         rules for each of his children.
 
-        :param json: The Json to analyse.
-        :type json: Dict[str, Any]
+        :param dictionary: The Dict to analyse.
+        :type dictionary: Dict[str, Any]
         :return: The list of errors catched by the rule, return empty list if
                  no errors.
         :rtype: List[Error]
         """
-        errors = super().check(json)
+        errors = super().check(dictionary)
         if errors:
             return errors
-        target = self.target(json)
+        target = self.target(dictionary)
         values = target if isinstance(target, list) else target.keys()
         for rule in self.rules.copy():
             rule_path = rule.path
@@ -42,5 +42,5 @@ class JsonRuleForeach(JsonRule):
                     rule.path = self.path + [key] + rule_path
                 else:
                     rule.path = self.path + [key]
-                errors += rule.check(json)
+                errors += rule.check(dictionary)
         return errors

@@ -1,12 +1,12 @@
 from typing import Any, Dict, List
 
 from certum.error import Error
-from certum.rule.dict.contains_key import JsonRuleKeyPresent
-from certum.rule.dict.is_dict import JsonRuleDict
-from certum.rule.generic.abstract import JsonRule
+from certum.rule.dict.contains_key import DictRuleKeyPresent
+from certum.rule.dict.is_dict import DictRuleDict
+from certum.rule.generic.abstract import DictRule
 
 
-class JsonRuleKeysPresent(JsonRuleDict):
+class DictRuleKeysPresent(DictRuleDict):
     """The rule ensuring that keys are presents inside a path.
 
     :param path: The path where the keys should be presents.
@@ -20,24 +20,24 @@ class JsonRuleKeysPresent(JsonRuleDict):
         self.path = path
         self.keys = keys
 
-    def check(self, json: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding json is a dict containing
+    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
+        """Check if the path from the corresponding dictionary is a dict containing
         the keys inside 'self.keys'.
 
         Embedded rules:
-            - :class:`certum.rule.dict.is_dict.JsonRuleDict`
-            - :class:`certum.rule.dict.contains_key.JsonRuleKeyPresent`
+            - :class:`certum.rule.dict.is_dict.DictRuleDict`
+            - :class:`certum.rule.dict.contains_key.DictRuleKeyPresent`
 
         :raises AssertionError: if the path's dict doesn't contain the keys.
-        :param json: The Json to analyse.
-        :type json: Dict[str, Any]
+        :param dictionary: The Dict to analyse.
+        :type dictionary: Dict[str, Any]
         :return: The list of errors catched by the rule, return empty list if
                  no errors.
         :rtype: List[Error]
         """
-        errors = super().check(json)
+        errors = super().check(dictionary)
         if errors:
             return errors
         for key in self.keys:
-            errors += JsonRuleKeyPresent(self.path, key).check(json)
+            errors += DictRuleKeyPresent(self.path, key).check(dictionary)
         return errors

@@ -7,17 +7,17 @@ from certum.strategy.printing.abstract import PrintingStrategy
 from certum.strategy.sorting.abstract import SortingStrategy
 
 
-def _using(*args, validator: "JsonValidator") -> "JsonValidator":
+def _using(*args, validator: "DictValidator") -> "DictValidator":
     """Setup strategies to use by the validator. These strategies can be provided
     using :class:`certum.strategy.abstract.Strategy` or lists of
     :class:`certum.strategy.abstract.Strategy`.
 
     :raises CertumException: If the argument provided is not a available strategy.
     :return: Itself.
-    :rtype: JsonValidator
+    :rtype: DictValidator
     """
 
-    def setup_strategy(validator, strategy) -> "JsonValidator":
+    def setup_strategy(validator, strategy) -> "DictValidator":
         if isinstance(strategy, SortingStrategy):
             validator.sorting = strategy
         elif isinstance(strategy, FilteringStrategy):
@@ -40,24 +40,24 @@ def _using(*args, validator: "JsonValidator") -> "JsonValidator":
     return validator
 
 
-def _target(path: List[str], json: Dict[str, Any]) -> Any:
-    """Target a value following the path 'self.path' inside the json.
+def _target(path: List[str], dictionary: Dict[str, Any]) -> Any:
+    """Target a value following the path 'self.path' inside the dictionary.
 
     :Example:
 
     path = ["a", 0, "b"]
     obj = {"a": [{"b": 1}]}
-    assert JsonRule(path).target(obj) == 1 # True
+    assert DictRule(path).target(obj) == 1 # True
 
-    :param json: The targeting json.
-    :type json: Dict[str, Any]
+    :param dictionary: The targeting dictionary.
+    :type dictionary: Dict[str, Any]
     :raises (TypeError, ValueError, KeyError): if the path doesn't exist.
     :return: The value of the path.
     :rtype: Any
     """
     if not path:
-        return json
-    current = json
+        return dictionary
+    current = dictionary
     for key in path:
         try:
             if isinstance(current, list):

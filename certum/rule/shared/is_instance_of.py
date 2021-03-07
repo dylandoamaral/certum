@@ -1,10 +1,10 @@
 from typing import Any, Dict, List
 
 from certum.error import Error
-from certum.rule.generic.abstract import JsonRule
+from certum.rule.generic.abstract import DictRule
 
 
-class JsonRuleInstanceOf(JsonRule):
+class DictRuleInstanceOf(DictRule):
     """The rule ensuring that a path is instance of a type type_.
 
     :param path: The path that should be of type type_.
@@ -18,20 +18,20 @@ class JsonRuleInstanceOf(JsonRule):
         self.path = path
         self.type_ = type_
 
-    def check(self, json: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding json is instance of a type.
+    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
+        """Check if the path from the corresponding dictionary is instance of a type.
 
         :raises AssertionError: if the path isn't instance of the type type_.
-        :param json: The Json to analyse.
-        :type json: Dict[str, Any]
+        :param dictionary: The Dict to analyse.
+        :type dictionary: Dict[str, Any]
         :return: The list of errors catched by the rule, return empty list if
                  no errors.
         :rtype: List[Error]
         """
-        errors = super().check(json)
+        errors = super().check(dictionary)
         if errors:
             return errors
-        value = self.target(json)
+        value = self.target(dictionary)
         path = " -> ".join(self.path)
         real_type = type(value)
         message = (

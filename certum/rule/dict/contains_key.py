@@ -1,11 +1,11 @@
 from typing import Any, Dict, List
 
 from certum.error import Error
-from certum.rule.dict.is_dict import JsonRuleDict
-from certum.rule.generic.abstract import JsonRule
+from certum.rule.dict.is_dict import DictRuleDict
+from certum.rule.generic.abstract import DictRule
 
 
-class JsonRuleKeyPresent(JsonRuleDict):
+class DictRuleKeyPresent(DictRuleDict):
     """The rule ensuring that a key is present inside a path.
 
     :param path: The path where the key should be present.
@@ -19,24 +19,24 @@ class JsonRuleKeyPresent(JsonRuleDict):
         self.path = path
         self.key = key
 
-    def check(self, json: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding json is a dict containing
+    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
+        """Check if the path from the corresponding dictionary is a dict containing
         the key 'self.key'.
 
         Embedded rules:
-            - :class:`certum.rule.dict.is_dict.JsonRuleDict`
+            - :class:`certum.rule.dict.is_dict.DictRuleDict`
 
         :raises AssertionError: if the path's dict doesn't contain the key.
-        :param json: The Json to analyse.
-        :type json: Dict[str, Any]
+        :param dictionary: The Dict to analyse.
+        :type dictionary: Dict[str, Any]
         :return: The list of errors catched by the rule, return empty list if
                  no errors.
         :rtype: List[Error]
         """
-        errors = super().check(json)
+        errors = super().check(dictionary)
         if errors:
             return errors
         message = f"The key {self.key} is missing."
-        if self.key not in self.target(json):
+        if self.key not in self.target(dictionary):
             errors.append(self.error(message))
         return errors
