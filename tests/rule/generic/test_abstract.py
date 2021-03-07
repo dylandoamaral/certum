@@ -60,3 +60,12 @@ def test_exists_nested_failure():
     with pytest.raises(CertumException) as error:
         validator.check()
     assert_error(error, "[x] => The path is missing.")
+
+
+def test_unknown_path():
+    """Ensuring that the rule doesn't start if the path is unknown."""
+    obj = {}
+    validator = ensure(obj).respects(that("x").exists())
+    with pytest.raises(CertumException) as error:
+        validator.check()
+    assert_error(error, "[x] => The path is missing.")

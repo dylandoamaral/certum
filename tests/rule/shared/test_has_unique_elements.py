@@ -42,3 +42,12 @@ def test_has_unique_elements_other_success():
     obj = {"x": 2}
     validator = ensure(obj).respects(that("x").has_unique_elements())
     validator.check()
+
+
+def test_unknown_path():
+    """Ensuring that the rule doesn't start if the path is unknown."""
+    obj = {}
+    validator = ensure(obj).respects(that("x").has_unique_elements())
+    with pytest.raises(CertumException) as error:
+        validator.check()
+    assert_error(error, "[x] => The path is missing.")

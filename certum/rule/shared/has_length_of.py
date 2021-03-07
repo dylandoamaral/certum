@@ -28,16 +28,15 @@ class JsonRuleLength(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
+        errors = super().check(json)
+        if errors:
+            return errors
         try:
             _length = len(self.target(json))
         except TypeError:
             # TODO Probably add verification in case of value who is not
             # elligible with len function and return an assertion error.
             _length = 1
-
-        errors = super().check(json)
-        if errors:
-            return errors
         path = " -> ".join(self.path)
         message = f"The length of {path} is {_length}" f", expected {self.length}."
         if _length != self.length:

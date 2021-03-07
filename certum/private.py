@@ -25,7 +25,7 @@ def _using(*args, validator: "JsonValidator") -> "JsonValidator":
         elif isinstance(strategy, PrintingStrategy):
             validator.printing = strategy
         else:
-            raise CertumException("The strategy provided for the validator is uknown.")
+            raise CertumException("The strategy provided for the validator is unknown.")
         return validator
 
     for arg in args:
@@ -35,7 +35,7 @@ def _using(*args, validator: "JsonValidator") -> "JsonValidator":
         elif isinstance(arg, Strategy):
             validator = setup_strategy(validator, arg)
         else:
-            raise CertumException("The strategy provided for the validator is uknown.")
+            raise CertumException("The strategy provided for the validator is unknown.")
 
     return validator
 

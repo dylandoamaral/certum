@@ -36,3 +36,12 @@ def test_contains_keys_failure_multiple_keys():
     with pytest.raises(CertumException) as error:
         validator.check()
     assert_error(error, "[x] => The key a is missing.\n[x] => The key b is missing.")
+
+
+def test_unknown_path():
+    """Ensuring that the rule doesn't start if the path is unknown."""
+    obj = {}
+    validator = ensure(obj).respects(that("x").contains_keys(["a"]))
+    with pytest.raises(CertumException) as error:
+        validator.check()
+    assert_error(error, "[x] => The path is missing.")
