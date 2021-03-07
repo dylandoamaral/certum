@@ -2,6 +2,7 @@ import pytest
 
 from certum import ensure, that
 from certum.exception import CertumException
+from certum.strategy.sorting.alphabetical import AlphabeticalSorting
 from tests.utils import assert_error
 
 
@@ -27,7 +28,20 @@ def test_contains_keys_failure_multiple_keys():
     """Ensuring that x is a dict with keys 'a' and 'b' should return an assertion
     error saying that the first key is missing."""
     obj = {"x": {}}
-    validator = ensure(obj).respects(that("x").contains_keys(["a", "b"]))
+    validator = (
+        ensure(obj)
+        .respects(that("x").contains_keys(["a", "b"]))
+        .using(AlphabeticalSorting())
+    )
     with pytest.raises(CertumException) as error:
         validator.check()
     assert_error(error, "[x] => The key a is missing.\n[x] => The key b is missing.")
+
+
+def test_unknown_path():
+    """Ensuring that the rule doesn't start if the path is unknown."""
+    obj = {}
+    validator = ensure(obj).respects(that("x").contains_keys(["a"]))
+    with pytest.raises(CertumException) as error:
+        validator.check()
+    assert_error(error, "[x] => The path is missing.")

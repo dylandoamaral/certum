@@ -25,8 +25,11 @@ class JsonRuleList(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
+        errors = super().check(json)
+        if errors:
+            return errors
         path = " -> ".join(self.path)
         message = f"The path {path} is not a list."
         if not isinstance(self.target(json), list):
-            return [self.error(message)]
-        return []
+            errors.append(self.error(message))
+        return errors

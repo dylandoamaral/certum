@@ -47,3 +47,13 @@ def test_foreach_list_path_success():
     rule = that("y").equals(2)
     validator = ensure(obj).respects(that("x").foreach(rule))
     validator.check()
+
+
+def test_unknown_path():
+    """Ensuring that the rule doesn't start if the path is unknown."""
+    obj = {}
+    rule = that("y").equals(2)
+    validator = ensure(obj).respects(that("x").foreach(rule))
+    with pytest.raises(CertumException) as error:
+        validator.check()
+    assert_error(error, "[x] => The path is missing.")

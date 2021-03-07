@@ -20,3 +20,12 @@ def test_has_key_type_failure():
     with pytest.raises(CertumException) as error:
         validator.check()
     assert_error(error, "[x] => The key a is not an instance of str but int.")
+
+
+def test_unknown_path():
+    """Ensuring that the rule doesn't start if the path is unknown."""
+    obj = {}
+    validator = ensure(obj).respects(that("x").has_key_type("a", str))
+    with pytest.raises(CertumException) as error:
+        validator.check()
+    assert_error(error, "[x] => The path is missing.")

@@ -95,6 +95,7 @@ class JsonValidator:
         :raises CertumException: if at least one rule is not respected.
         """
         errors = [err for rule in self.rules for err in rule.check(self.json)]
+        errors = list(set(errors))
         errors = self.sorting.sort(errors)
         errors = self.filtering.filter(errors)
         if errors:

@@ -50,13 +50,13 @@ def test_using_list():
 
 
 def test_using_fail():
-    """Using should return an error if an uknown strategy is provided."""
+    """Using should return an error if an unknown strategy is provided."""
     with pytest.raises(CertumException):
         ensure({}).using(3)
 
 
 def test_using_list_fail():
-    """Using should return an error if an uknown strategy is provided inside a list."""
+    """Using should return an error if an unknown strategy is provided inside a list."""
     with pytest.raises(CertumException):
         ensure({}).using([3])
 

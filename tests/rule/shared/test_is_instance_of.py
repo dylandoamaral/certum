@@ -18,4 +18,13 @@ def test_is_instance_of_failure():
     validator = ensure(obj).respects(that("x").is_instance_of(str))
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x] => The path x is not instance of str but int.")
+    assert_error(error, "[x] => The key is not instance of str but int.")
+
+
+def test_unknown_path():
+    """Ensuring that the rule doesn't start if the path is unknown."""
+    obj = {}
+    validator = ensure(obj).respects(that("x").is_instance_of(str))
+    with pytest.raises(CertumException) as error:
+        validator.check()
+    assert_error(error, "[x] => The path is missing.")

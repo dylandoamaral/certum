@@ -6,7 +6,7 @@ from certum.rule.dict.is_dict import JsonRuleDict
 from certum.rule.generic.abstract import JsonRule
 
 
-class JsonRuleKeyEqual(JsonRule):
+class JsonRuleKeyEqual(JsonRuleDict):
     """The rule ensuring that a key inside a path has a particular value.
 
     :param path: The path where the key should be present.
@@ -39,8 +39,10 @@ class JsonRuleKeyEqual(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
-        errors = JsonRuleDict(self.path).check(json)
-        errors += JsonRuleKeyPresent(self.path, self.key).check(json)
+        errors = super().check(json)
+        if errors:
+            return errors
+        errors = JsonRuleKeyPresent(self.path, self.key).check(json)
         _value = self.target(json)[self.key]
         message = f"The key {self.key} is not equal to {self.value} but {_value}."
         if _value != self.value:

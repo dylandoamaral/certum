@@ -29,9 +29,12 @@ class JsonRuleNotEmpty(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
+        errors = super().check(json)
+        if errors:
+            return errors
         path = " -> ".join(self.path)
         message = f"The path {path} is empty."
-        errors = JsonRuleEmpty(self.path).check(json)
-        if not errors:
-            return [self.error(message)]
-        return []
+        error = JsonRuleEmpty(self.path).check(json)
+        if not error:
+            errors.append(self.error(message))
+        return errors

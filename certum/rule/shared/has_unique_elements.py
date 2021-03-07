@@ -25,6 +25,9 @@ class JsonRuleUniqueElements(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
+        errors = super().check(json)
+        if errors:
+            return errors
         target = self.target(json)
         try:
             _length = len(target)
@@ -32,9 +35,6 @@ class JsonRuleUniqueElements(JsonRule):
             # TODO Probably add verification in case of value who is not an
             # list or a dict.
             return []
-
-        errors = []
-
         for i in range(0, _length - 1):
             for j in range(1, _length):
                 if i != j:
