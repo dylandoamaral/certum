@@ -1,12 +1,12 @@
 from typing import Any, Dict, List
 
 from certum.error import Error
-from certum.rule.dict.contains_key import JsonRuleKeyPresent
-from certum.rule.dict.is_dict import JsonRuleDict
-from certum.rule.generic.abstract import JsonRule
+from certum.rule.dict.contains_key import DictRuleKeyPresent
+from certum.rule.dict.is_dict import DictRuleDict
+from certum.rule.generic.abstract import DictRule
 
 
-class JsonRuleKeyEqual(JsonRuleDict):
+class DictRuleKeyEqual(DictRuleDict):
     """The rule ensuring that a key inside a path has a particular value.
 
     :param path: The path where the key should be present.
@@ -23,27 +23,27 @@ class JsonRuleKeyEqual(JsonRuleDict):
         self.key = key
         self.value = value
 
-    def check(self, json: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding json is a dict containing
+    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
+        """Check if the path from the corresponding dictionary is a dict containing
         the key 'self.key' of value 'self.value'.
 
         Embedded rules:
-            - :class:`certum.rule.dict.is_dict.JsonRuleDict`
-            - :class:`certum.rule.dict.contains_key.JsonRuleKeyPresent`
+            - :class:`certum.rule.dict.is_dict.DictRuleDict`
+            - :class:`certum.rule.dict.contains_key.DictRuleKeyPresent`
 
         :raises AssertionError: if the path's dict contains the key with an
                                 incorrect value.
-        :param json: The Json to analyse.
-        :type json: Dict[str, Any]
+        :param dictionary: The Dict to analyse.
+        :type dictionary: Dict[str, Any]
         :return: The list of errors catched by the rule, return empty list if
                  no errors.
         :rtype: List[Error]
         """
-        errors = super().check(json)
+        errors = super().check(dictionary)
         if errors:
             return errors
-        errors = JsonRuleKeyPresent(self.path, self.key).check(json)
-        _value = self.target(json)[self.key]
+        errors = DictRuleKeyPresent(self.path, self.key).check(dictionary)
+        _value = self.target(dictionary)[self.key]
         message = f"The key {self.key} is not equal to {self.value} but {_value}."
         if _value != self.value:
             errors.append(self.error(message))
