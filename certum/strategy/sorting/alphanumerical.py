@@ -15,6 +15,7 @@ class AlphanumericalSorting(SortingStrategy):
         :return: The list of errors sorted.
         :rtype: List[Error]
         """
+        errors = sorted(errors, key=lambda error: error.message)
         fragmented_errors: Tuple[List[str], str] = [
             (error.path.split(" -> "), error.message) for error in errors
         ]

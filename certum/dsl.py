@@ -6,6 +6,7 @@ from certum.rule.dict.contains_keys import JsonRuleKeysPresent
 from certum.rule.dict.has_key_type import JsonRuleKeyType
 from certum.rule.dict.has_key_value import JsonRuleKeyEqual
 from certum.rule.dict.is_dict import JsonRuleDict
+from certum.rule.generic.abstract import JsonRule
 from certum.rule.generic.foreach import JsonRuleForeach
 from certum.rule.list.is_list import JsonRuleList
 from certum.rule.shared.equals import JsonRuleEqual
@@ -24,6 +25,14 @@ class JsonRuleDsl:
     def __init__(self, path: List[str]) -> None:
         """Constructor method"""
         self.path = path
+
+    def exists(self) -> JsonRule:
+        """Check if the current path exists.
+
+        :return: The JsonRule related with this rule.
+        :rtype: JsonRule
+        """
+        return JsonRule(self.path)
 
     def foreach(self, *args) -> JsonRuleForeach:
         """Check if the current path respect a list of rules for each elements.

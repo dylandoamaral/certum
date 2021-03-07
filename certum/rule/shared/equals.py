@@ -28,8 +28,11 @@ class JsonRuleEqual(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
+        errors = super().check(json)
+        if errors:
+            return errors
         _value = self.target(json)
         message = f"{self.value} is not equal to {_value}."
         if _value != self.value:
-            return [self.error(message)]
-        return []
+            errors.append(self.error(message))
+        return errors

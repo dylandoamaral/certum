@@ -29,9 +29,11 @@ class JsonRuleForeach(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
+        errors = super().check(json)
+        if errors:
+            return errors
         target = self.target(json)
         values = target if isinstance(target, list) else target.keys()
-        errors = []
         for rule in self.rules.copy():
             rule_path = rule.path
             for index, child in enumerate(values):

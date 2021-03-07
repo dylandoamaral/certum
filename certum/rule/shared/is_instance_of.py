@@ -28,13 +28,16 @@ class JsonRuleInstanceOf(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
+        errors = super().check(json)
+        if errors:
+            return errors
         value = self.target(json)
         path = " -> ".join(self.path)
         real_type = type(value)
         message = (
-            f"The path {path} is not instance of {self.type_.__name__} "
+            f"The key is not instance of {self.type_.__name__} "
             f"but {real_type.__name__}."
         )
         if real_type != self.type_:
-            return [self.error(message)]
-        return []
+            errors.append(self.error(message))
+        return errors

@@ -24,4 +24,7 @@ class AlphabeticalSorting(SortingStrategy):
         :return: The list of errors sorted.
         :rtype: List[Error]
         """
-        return sorted(errors, key=lambda error: "".join(error.path))
+        return sorted(
+            sorted(errors, key=lambda error: error.message),
+            key=lambda error: "".join(error.path),
+        )

@@ -35,8 +35,11 @@ class JsonRuleLength(JsonRule):
             # elligible with len function and return an assertion error.
             _length = 1
 
+        errors = super().check(json)
+        if errors:
+            return errors
         path = " -> ".join(self.path)
         message = f"The length of {path} is {_length}" f", expected {self.length}."
         if _length != self.length:
-            return [self.error(message)]
-        return []
+            errors.append(self.error(message))
+        return errors

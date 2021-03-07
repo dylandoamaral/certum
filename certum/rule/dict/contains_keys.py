@@ -6,7 +6,7 @@ from certum.rule.dict.is_dict import JsonRuleDict
 from certum.rule.generic.abstract import JsonRule
 
 
-class JsonRuleKeysPresent(JsonRule):
+class JsonRuleKeysPresent(JsonRuleDict):
     """The rule ensuring that keys are presents inside a path.
 
     :param path: The path where the keys should be presents.
@@ -35,7 +35,9 @@ class JsonRuleKeysPresent(JsonRule):
                  no errors.
         :rtype: List[Error]
         """
-        errors = JsonRuleDict(self.path).check(json)
+        errors = super().check(json)
+        if errors:
+            return errors
         for key in self.keys:
             errors += JsonRuleKeyPresent(self.path, key).check(json)
         return errors
