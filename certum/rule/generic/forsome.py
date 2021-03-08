@@ -43,11 +43,7 @@ class DictRuleForsome(DictRule):
                 value = target[key]
                 for rule in self.rules:
                     rule = copy(rule)
-                    rule_path = rule.path
-                    if rule_path != [""]:
-                        rule.path = self.path + [key] + rule_path
-                    else:
-                        rule.path = self.path + [key]
+                    rule.path = self.path + [key] + rule.path
                     errors += rule.check(dictionary)
             except (KeyError, IndexError, TypeError):
                 errors += DictRule(self.path + [key]).check(dictionary)
