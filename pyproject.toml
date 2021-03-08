@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "certum"
 version = "0.1.0"
-description = ""
+description = "A dictionary validation library based on partial, composable and expressive rules."
 authors = ["dylandoamaral <do.amaral.dylan@gmail.com>"]
 
 [tool.poetry.dependencies]

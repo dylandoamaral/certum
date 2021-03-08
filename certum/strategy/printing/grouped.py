@@ -22,15 +22,16 @@ class GroupedPrinting(PrintingStrategy):
         :return: The stringigy version of errors.
         :rtype: str
         """
-        path_lengths = [len(error.path) for error in errors]
-        max_path_length = max(path_lengths)
-
+        max_path_length = -1
         grouped_errors: Dict[str, List[str]] = OrderedDict()
         for error in errors:
+            path = self.key_separator.join(error.path)
+            if len(path) > max_path_length:
+                max_path_length = len(path)
             try:
-                grouped_errors[error.path] += [error.message]
+                grouped_errors[path] += [error.message]
             except KeyError:
-                grouped_errors[error.path] = [error.message]
+                grouped_errors[path] = [error.message]
 
         message = ""
         for path, errors in grouped_errors.items():
