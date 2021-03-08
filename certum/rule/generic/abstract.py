@@ -1,11 +1,11 @@
-from abc import ABC, abstractmethod
 from typing import Any, Dict, List
 
 from certum.error import Error
 from certum.exception import CertumException
+from certum.private import _target
 
 
-class JsonRule(ABC):
+class DictRule:
     """The base for all rules.
 
     It provides the error system and the target function.
@@ -18,36 +18,22 @@ class JsonRule(ABC):
         """Constructor method"""
         self.path = path
 
-    def target(self, json: Dict[str, Any]) -> Any:
-        """Target a value following the path 'self.path' inside the json.
-
-        A path is composed by keys separated by ' -> '.
+    def target(self, dictionary: Dict[str, Any]) -> Any:
+        """Target a value following the path 'self.path' inside the dictionary.
 
         :Example:
 
-        path = "a -> 0 -> b"
+        path = ["a", 0, "b"]
         obj = {"a": [{"b": 1}]}
-        assert JsonRule(path).target(obj) == 1 # True
+        assert DictRule(path).target(obj) == 1 # True
 
-        :param json: The targeting json.
-        :type json: Dict[str, Any]
-        :raises (TypeError, ValueError): if the path doesn't exist.
+        :param dictionary: The targeting dictionary.
+        :type dictionary: Dict[str, Any]
+        :raises (TypeError, ValueError, KeyError): if the path doesn't exist.
         :return: The value of the path.
         :rtype: Any
         """
-        if not self.path:
-            return json
-        current = json
-        for key in self.path:
-            try:
-                if isinstance(current, list):
-                    current = current[int(key)]
-                else:
-                    current = current[key]
-            except (TypeError, ValueError):
-                path = " -> ".join(self.path)
-                raise CertumException(f"The path {path} doesn't not exist")
-        return current
+        return _target(self.path, dictionary)
 
     def error(self, message: str) -> Error:
         """Format error message throws by the assertion.
@@ -57,14 +43,20 @@ class JsonRule(ABC):
         :return: The formatted message.
         :rtype: str
         """
-        return Error(self.path, message)
+        path = [str(key) for key in self.path]
+        return Error(path, message)
 
-    @abstractmethod
-    def check(self, json: Dict[str, Any]) -> List[Error]:
+    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
         """Check if the rule is respected.
 
         :raises AssertionError: if the rule is not respected.
-        :param json: [description]
-        :type json: Dict[str, Any]
+        :param dictionary: [description]
+        :type dictionary: Dict[str, Any]
         """
-        pass
+        for index, key in enumerate(self.path, 1):
+            try:
+                _target(self.path[:index], dictionary)
+            except CertumException:
+                error = Error(self.path[:index], "The path is missing.")
+                return [error]
+        return []

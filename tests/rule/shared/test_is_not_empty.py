@@ -5,26 +5,30 @@ from certum.exception import CertumException
 from tests.utils import assert_error
 
 
-def test_equals_success():
-    """Ensuring that x is equal to 2."""
+def test_is_not_empty_success():
+    """Ensuring that x is not empty."""
     obj = {"x": 2}
-    validator = ensure(obj).respects(that("x").equals(2))
+    validator = ensure(obj).respects(that("x").is_not_empty())
     validator.check()
 
 
-def test_is_list_failure():
-    """Ensuring that x is equal to 2 throw an assertion error."""
-    obj = {"x": 3}
-    validator = ensure(obj).respects(that("x").equals(2))
+@pytest.mark.parametrize(
+    "empty",
+    [None, {}, [], ""],
+)
+def test_is_not_empty_failure(empty):
+    """Ensuring that x is empty."""
+    obj = {"x": empty}
+    validator = ensure(obj).respects(that("x").is_not_empty())
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x] => 2 is not equal to 3.")
+    assert_error(error, "[x] => The path x is empty.")
 
 
 def test_unknown_path():
     """Ensuring that the rule doesn't start if the path is unknown."""
     obj = {}
-    validator = ensure(obj).respects(that("x").equals(2))
+    validator = ensure(obj).respects(that("x").is_not_empty())
     with pytest.raises(CertumException) as error:
         validator.check()
     assert_error(error, "[x] => The path is missing.")

@@ -9,3 +9,7 @@ class Error:
 
     path: List[str]
     message: str
+
+    def __hash__(self):
+        hashable_form = " -> ".join(self.path) + " : " + self.message
+        return hash(hashable_form)
