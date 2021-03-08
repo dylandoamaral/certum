@@ -2,6 +2,7 @@ import pytest
 
 from certum import ensure, that, this
 from certum.exception import CertumException
+from certum.strategy.sorting.alphabetical import AlphabeticalSorting
 from tests.utils import assert_error
 
 
@@ -53,7 +54,11 @@ def test_forsome_hybrid_success_and_failure():
     """Ensuring that forsome is applied correctly for a list."""
     obj = {"x": {"a": 2, "b": 3, "c": 3}}
     rule = this.equals(2)
-    validator = ensure(obj).respects(that("x").forsome(rule, keys=["a", "b", "d"]))
+    validator = (
+        ensure(obj)
+        .respects(that("x").forsome(rule, keys=["a", "b", "d"]))
+        .using(AlphabeticalSorting())
+    )
     with pytest.raises(CertumException) as error:
         validator.check()
     errors = ["[x -> b] => 2 is not equal to 3.", "[x -> d] => The path is missing."]
