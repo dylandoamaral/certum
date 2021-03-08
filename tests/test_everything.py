@@ -42,6 +42,7 @@ def test_one():
 
 
 def test_two():
+    """Ensure that certum accumulate multiple type of errors together + strategies."""
     my_obj = {"name": 2, "entities": [1, 3, 3], "nested": {"value": 2}}
 
     validator = (
