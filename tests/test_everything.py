@@ -20,9 +20,9 @@ def test_one():
         ensure(obj)
         .respects(
             that("a").equals(2),
-            that("b").is_list(),
+            that("b").is_instance_of(list),
             that("b -> c").is_instance_of(int),
-            that("x").has_key_value("a", 2),
+            that("x -> a").equals(2),
             that("x -> b").equals(4),
         )
         .using(AlphabeticalSorting())
@@ -32,7 +32,7 @@ def test_one():
         validator.check()
 
     errors = [
-        "[b] => The path b is not a list.",
+        "[b] => The key is not instance of list but dict.",
         "[b -> c] => The key is not instance of int but list.",
         "[x] => The path is missing.",
     ]

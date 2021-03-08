@@ -31,7 +31,7 @@ def test_this():
     element = this
     assert isinstance(element, DictRuleDsl)
     assert element.path == []
-    validator = ensure({"a": "b"}).respects(this.has_key_value("a", "b"))
+    validator = ensure({"a": "b"}).respects(this.is_instance_of(dict))
     validator.check()
 
 
