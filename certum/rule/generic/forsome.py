@@ -1,12 +1,12 @@
+from copy import copy
 from typing import Any, Dict, List
 
 from certum.error import Error
 from certum.rule.generic.abstract import DictRule
-from certum.rule.generic.forsome import DictRuleForsome
 
 
-class DictRuleForeach(DictRule):
-    """The rule ensuring that a list of rules is respected for each elements
+class DictRuleForsome(DictRule):
+    """The rule ensuring that a list of rules is respected for some elements
     of a dict or a list.
 
     :param path: The path where the keys should be presents.
@@ -15,14 +15,15 @@ class DictRuleForeach(DictRule):
     :type keys: List[DictRule]
     """
 
-    def __init__(self, path: List[str], rules: List[DictRule]):
+    def __init__(self, path: List[str], keys: List[Any], rules: List[DictRule]):
         """Constructor method"""
         self.path = path
+        self.keys = keys
         self.rules = rules
 
     def check(self, dictionary: Dict[str, Any]) -> List[Error]:
         """Check if the path from the corresponding dictionary respect a list of
-        rules for each of his children.
+        rules for some of his children.
 
         :param dictionary: The Dict to analyse.
         :type dictionary: Dict[str, Any]
@@ -37,5 +38,17 @@ class DictRuleForeach(DictRule):
         if not isinstance(target, dict) and not isinstance(target, list):
             errors += [self.error("The path should be instance of dict or list.")]
             return errors
-        keys = range(0, len(target)) if isinstance(target, list) else target.keys()
-        return DictRuleForsome(self.path, keys, self.rules).check(dictionary)
+        for key in self.keys:
+            try:
+                value = target[key]
+                for rule in self.rules:
+                    rule = copy(rule)
+                    rule_path = rule.path
+                    if rule_path != [""]:
+                        rule.path = self.path + [key] + rule_path
+                    else:
+                        rule.path = self.path + [key]
+                    errors += rule.check(dictionary)
+            except (KeyError, IndexError, TypeError):
+                errors += DictRule(self.path + [key]).check(dictionary)
+        return errors

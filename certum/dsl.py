@@ -1,14 +1,10 @@
 from typing import Any, List
 
 from certum.decipher import args_to_rule_decipher
-from certum.rule.dict.contains_key import DictRuleKeyPresent
-from certum.rule.dict.contains_keys import DictRuleKeysPresent
-from certum.rule.dict.has_key_type import DictRuleKeyType
-from certum.rule.dict.has_key_value import DictRuleKeyEqual
-from certum.rule.dict.is_dict import DictRuleDict
+from certum.exception import CertumException
 from certum.rule.generic.abstract import DictRule
 from certum.rule.generic.foreach import DictRuleForeach
-from certum.rule.list.is_list import DictRuleList
+from certum.rule.generic.forsome import DictRuleForsome
 from certum.rule.shared.equals import DictRuleEqual
 from certum.rule.shared.has_length_of import DictRuleLength
 from certum.rule.shared.has_unique_elements import DictRuleUniqueElements
@@ -34,6 +30,28 @@ class DictRuleDsl:
         """
         return DictRule(self.path)
 
+    def forsome(self, *args, **kwargs) -> DictRuleForsome:
+        """Check if the current path respect a list of rules for elements corresponding
+        to some keys.
+
+        .. note::
+
+            Forsome needs a parameter 'keys' that contains the keys to analyse.
+
+        :return: The DictRule related with this rule.
+        :rtype: DictRuleForsome
+        """
+        try:
+            keys = kwargs["keys"]
+            if not isinstance(keys, list):
+                raise CertumException("Forsome needs a 'keys' argument of type list")
+        except KeyError as error:
+            raise CertumException(
+                "Forsome needs a 'keys' argument of type list"
+            ) from error
+        rules = args_to_rule_decipher(*args)
+        return DictRuleForsome(self.path, keys, rules)
+
     def foreach(self, *args) -> DictRuleForeach:
         """Check if the current path respect a list of rules for each elements.
 
@@ -42,22 +60,6 @@ class DictRuleDsl:
         """
         rules = args_to_rule_decipher(*args)
         return DictRuleForeach(self.path, rules)
-
-    def is_list(self) -> DictRuleList:
-        """Check if the current path is a list.
-
-        :return: The DictRule related with this rule.
-        :rtype: DictRuleList
-        """
-        return DictRuleList(self.path)
-
-    def is_dict(self) -> DictRuleDict:
-        """Check if the current path is a dict.
-
-        :return: The DictRule related with this rule.
-        :rtype: DictRuleDict
-        """
-        return DictRuleDict(self.path)
 
     def is_empty(self) -> DictRuleEmpty:
         """Check if the current path is empty.
@@ -103,30 +105,6 @@ class DictRuleDsl:
         """
         return DictRuleUniqueElements(self.path)
 
-    def has_key_value(self, key: str, value: Any) -> DictRuleKeyEqual:
-        """Check if the current path contains the provided key/value pair.
-
-        Embedded rules:
-            - :class:`certum.rule.dict.is_dict.DictRuleDict`
-            - :class:`certum.rule.dict.contains_key.DictRuleKeyPresent`
-
-        :return: The DictRule related with this rule.
-        :rtype: DictRuleKeyEqual
-        """
-        return DictRuleKeyEqual(self.path, key, value)
-
-    def has_key_type(self, key: str, value: Any) -> DictRuleKeyType:
-        """Check if the current path contains a key with a specific type.
-
-        Embedded rules:
-            - :class:`certum.rule.dict.is_dict.DictRuleDict`
-            - :class:`certum.rule.dict.contains_key.DictRuleKeyPresent`
-
-        :return: The DictRule related with this rule.
-        :rtype: DictRuleKeyType
-        """
-        return DictRuleKeyType(self.path, key, value)
-
     def equals(self, value: Any) -> DictRuleEqual:
         """Check if the current path equals a value.
 
@@ -134,25 +112,3 @@ class DictRuleDsl:
         :rtype: DictRuleEqual
         """
         return DictRuleEqual(self.path, value)
-
-    def contains_key(self, key: str) -> DictRuleKeyPresent:
-        """Check if the current path contains a key.
-
-        Embedded rules:
-            - :class:`certum.rule.dict.is_dict.DictRuleDict`
-
-        :return: The DictRule related with this rule.
-        :rtype: DictRuleKeyPresent
-        """
-        return DictRuleKeyPresent(self.path, key)
-
-    def contains_keys(self, keys: List[str]) -> DictRuleKeysPresent:
-        """Check if the current path contains a list of keys.
-
-        Embedded rules:
-            - :class:`certum.rule.dict.is_dict.DictRuleDict`
-
-        :return: The DictRule related with this rule.
-        :rtype: DictRuleKeysPresent
-        """
-        return DictRuleKeysPresent(self.path, keys)

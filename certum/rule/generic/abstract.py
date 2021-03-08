@@ -43,7 +43,8 @@ class DictRule:
         :return: The formatted message.
         :rtype: str
         """
-        return Error(self.path, message)
+        path = [str(key) for key in self.path]
+        return Error(path, message)
 
     def check(self, dictionary: Dict[str, Any]) -> List[Error]:
         """Check if the rule is respected.
