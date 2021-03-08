@@ -17,7 +17,7 @@ class AlphanumericalSorting(SortingStrategy):
         """
         errors = sorted(errors, key=lambda error: error.message)
         fragmented_errors: Tuple[List[str], str] = [
-            (error.path.split(" -> "), error.message) for error in errors
+            (error.path, error.message) for error in errors
         ]
         depth = max([len(error[0]) for error in fragmented_errors])
         error_table: List[List[Union[float, str]]] = []
@@ -51,6 +51,6 @@ class AlphanumericalSorting(SortingStrategy):
         for row in error_table:
             keys = [str(key) for key in row[:-1] if key is not None]
             message = row[-1]
-            sorted_errors.append(Error(" -> ".join(keys), message))
+            sorted_errors.append(Error(keys, message))
 
         return sorted_errors

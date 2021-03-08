@@ -14,36 +14,36 @@ def test_alphabetical_two_depth():
     """An alphabetical strategy should sort the messages alphabetically and respects
     path ordering for multiple depth level."""
     errors = [
-        Error("x", ""),
-        Error("a", ""),
-        Error("x -> a", ""),
-        Error("x -> b", ""),
-        Error("a -> b", ""),
+        Error(["x"], ""),
+        Error(["a"], ""),
+        Error(["x", "a"], ""),
+        Error(["x", "b"], ""),
+        Error(["a", "b"], ""),
     ]
     paths = [error.path for error in AlphabeticalSorting().sort(errors)]
-    assert paths == ["a", "a -> b", "x", "x -> a", "x -> b"]
+    assert paths == [["a"], ["a", "b"], ["x"], ["x", "a"], ["x", "b"]]
 
 
 def test_alphabetical_number():
     """An alphabetical strategy don't respects cardinality."""
     errors = [
-        Error("x", ""),
-        Error("a", ""),
-        Error("x -> 11", ""),
-        Error("x -> 2", ""),
-        Error("x -> 007", ""),
-        Error("x -> 128", ""),
-        Error("a -> 210", ""),
-        Error("a -> 3", ""),
+        Error(["x"], ""),
+        Error(["a"], ""),
+        Error(["x", "11"], ""),
+        Error(["x", "2"], ""),
+        Error(["x", "007"], ""),
+        Error(["x", "128"], ""),
+        Error(["a", "210"], ""),
+        Error(["a", "3"], ""),
     ]
     paths = [error.path for error in AlphabeticalSorting().sort(errors)]
     assert paths == [
-        "a",
-        "a -> 210",
-        "a -> 3",
-        "x",
-        "x -> 007",
-        "x -> 11",
-        "x -> 128",
-        "x -> 2",
+        ["a"],
+        ["a", "210"],
+        ["a", "3"],
+        ["x"],
+        ["x", "007"],
+        ["x", "11"],
+        ["x", "128"],
+        ["x", "2"],
     ]
