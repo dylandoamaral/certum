@@ -8,12 +8,12 @@ class DictRuleEqual(DictRule):
     """The rule ensuring that a path has a particular value.
 
     :param path: The path where the key should be present.
-    :type path: List[str]
+    :type path: List[Any]
     :param value: The value of the path.
     :type value: Any
     """
 
-    def __init__(self, path: List[str], value: Any):
+    def __init__(self, path: List[Any], value: Any):
         """Constructor method"""
         self.path = path
         self.value = value

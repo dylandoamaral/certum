@@ -6,6 +6,8 @@ from certum.strategy.abstract import Strategy
 
 
 class PrintingStrategy(Strategy):
+    key_separator: str = " -> "
+
     @abstractmethod
     def print(self, errors: List[Error]) -> str:
         """Print a list of errors based on the printing strategy.

@@ -21,7 +21,7 @@ def test_ensure_fail():
 
 def test_that():
     "The that function should create a DictRuleDsl that targets a path."
-    element = that("a -> b")
+    element = that("a", "b")
     assert isinstance(element, DictRuleDsl)
     assert element.path == ["a", "b"]
 

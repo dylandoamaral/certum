@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import List
+from typing import Any, List
 
 
 @dataclass
@@ -7,7 +7,7 @@ class Error:
     """An error returned by a rule that need to be sorted and showed to the
     user."""
 
-    path: List[str]
+    path: List[Any]
     message: str
 
     def __hash__(self):

@@ -11,10 +11,10 @@ class DictRule:
     It provides the error system and the target function.
 
     :param path: The path targeted by the rule.
-    :type path: List[str]
+    :type path: List[Any]
     """
 
-    def __init__(self, path: List[str]):
+    def __init__(self, path: List[Any]):
         """Constructor method"""
         self.path = path
 
