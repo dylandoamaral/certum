@@ -8,12 +8,12 @@ class DictRuleInstanceOf(DictRule):
     """The rule ensuring that a path is instance of a type type_.
 
     :param path: The path that should be of type type_.
-    :type path: List[str]
+    :type path: List[Any]
     :param type_: The expected type.
     :type type_: type
     """
 
-    def __init__(self, path: List[str], type_: type):
+    def __init__(self, path: List[Any], type_: type):
         """Constructor method"""
         self.path = path
         self.type_ = type_

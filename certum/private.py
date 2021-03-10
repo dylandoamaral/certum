@@ -40,7 +40,7 @@ def _using(*args, validator: "DictValidator") -> "DictValidator":
     return validator
 
 
-def _target(path: List[str], dictionary: Dict[str, Any]) -> Any:
+def _target(path: List[Any], dictionary: Dict[str, Any]) -> Any:
     """Target a value following the path 'self.path' inside the dictionary.
 
     :Example:
@@ -49,6 +49,8 @@ def _target(path: List[str], dictionary: Dict[str, Any]) -> Any:
     obj = {"a": [{"b": 1}]}
     assert DictRule(path).target(obj) == 1 # True
 
+    :param path: The tpath to target inside the dictionary.
+    :type path: List[Any]
     :param dictionary: The targeting dictionary.
     :type dictionary: Dict[str, Any]
     :raises (TypeError, ValueError, KeyError): if the path doesn't exist.
@@ -60,11 +62,8 @@ def _target(path: List[str], dictionary: Dict[str, Any]) -> Any:
     current = dictionary
     for key in path:
         try:
-            if isinstance(current, list):
-                current = current[int(key)]
-            else:
-                current = current[key]
-        except (TypeError, ValueError, KeyError) as error:
+            current = current[key]
+        except KeyError as error:
             path = " -> ".join(path)
-            raise CertumException(f"The path {path} doesn't exist") from error
+            raise CertumException(f"The path '{path}' doesn't exist") from error
     return current

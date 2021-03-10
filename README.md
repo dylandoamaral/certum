@@ -40,7 +40,7 @@ my_obj = {
 validator = ensure(my_obj).respects(
     that("name").is_instance_of(str),
     that("entities").has_unique_elements(),
-    that("nested -> value").equals(4)
+    that("nested", "value").equals(4)
 )
 
 validator.check()
@@ -64,7 +64,7 @@ my_obj = {
 validator = ensure(my_obj).respects(
     that("name").is_instance_of(str),
     that("entities").has_unique_elements(),
-    that("nested -> value").equals(4)
+    that("nested", "value").equals(4)
 )
 
 validator.check()
@@ -80,12 +80,12 @@ validator.check()
 
 Erros can be sorted, filtered and printed using different strategies.
 
-As an example, you may want to try the GroupedPrinting strategy with the AlphanumericalSorting strategy, this will give you a list of errors like this:
+As an example, you may want to try the GroupedPrinting strategy with the AlphabeticalSorting strategy, this will give you a list of errors like this:
 
 ```python
 from certum import ensure, that, this
 from certum.strategy.printing.grouped import GroupedPrinting
-from certum.strategy.sorting.alphanumerical import AlphanumericalSorting
+from certum.strategy.sorting.alphabetical import AlphabeticalSorting
 
 
 my_obj = {"name": 2, "entities": [1, 3, 3], "nested": {"value": 2}}
@@ -96,9 +96,9 @@ validator = (
         that("name").is_instance_of(str),
         that("name").equals("Hello"),
         that("entities").foreach(this.equals(1)),
-        that("nested -> value").equals(4),
+        that("nested", "value").equals(4),
     )
-    .using(GroupedPrinting(), AlphanumericalSorting())
+    .using(GroupedPrinting(), AlphabeticalSorting())
 )
 
 validator.check()

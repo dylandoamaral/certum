@@ -6,7 +6,7 @@ from certum.strategy.filtering.first import FirstFiltering
 from certum.strategy.filtering.no import NoFiltering
 from certum.strategy.printing.grouped import GroupedPrinting
 from certum.strategy.printing.simple import SimplePrinting
-from certum.strategy.sorting.alphanumerical import AlphanumericalSorting
+from certum.strategy.sorting.alphabetical import AlphabeticalSorting
 from certum.strategy.sorting.no import NoSorting
 
 
@@ -26,11 +26,11 @@ def test_using():
     assert isinstance(validator.filtering, NoFiltering)
     assert isinstance(validator.printing, SimplePrinting)
     validator = (
-        validator.using(AlphanumericalSorting())
+        validator.using(AlphabeticalSorting())
         .using(FirstFiltering())
         .using(GroupedPrinting())
     )
-    assert isinstance(validator.sorting, AlphanumericalSorting)
+    assert isinstance(validator.sorting, AlphabeticalSorting)
     assert isinstance(validator.filtering, FirstFiltering)
     assert isinstance(validator.printing, GroupedPrinting)
 
@@ -42,9 +42,9 @@ def test_using_list():
     assert isinstance(validator.filtering, NoFiltering)
     assert isinstance(validator.printing, SimplePrinting)
     validator = validator.using(
-        [AlphanumericalSorting(), FirstFiltering(), GroupedPrinting()]
+        [AlphabeticalSorting(), FirstFiltering(), GroupedPrinting()]
     )
-    assert isinstance(validator.sorting, AlphanumericalSorting)
+    assert isinstance(validator.sorting, AlphabeticalSorting)
     assert isinstance(validator.filtering, FirstFiltering)
     assert isinstance(validator.printing, GroupedPrinting)
 
@@ -64,7 +64,7 @@ def test_using_list_fail():
 def test_on():
     """On should assign a new dictionary to the validator."""
     obj = {"a": "b"}
-    validator = using(AlphanumericalSorting()).on(obj)
+    validator = using(AlphabeticalSorting()).on(obj)
     assert validator.dictionary == obj
 
 
@@ -72,4 +72,4 @@ def test_on_fail():
     """On should return an error if the new dictionary is not a dict."""
     obj = "hello"
     with pytest.raises(CertumException):
-        using(AlphanumericalSorting()).on(obj)
+        using(AlphabeticalSorting()).on(obj)

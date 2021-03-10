@@ -8,10 +8,10 @@ class DictRuleEmpty(DictRule):
     """The rule ensuring that a path is empty.
 
     :param path: The path that should be empty.
-    :type path: List[str]
+    :type path: List[Any]
     """
 
-    def __init__(self, path: List[str]):
+    def __init__(self, path: List[Any]):
         """Constructor method"""
         self.path = path
 

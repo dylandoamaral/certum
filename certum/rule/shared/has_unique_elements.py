@@ -8,10 +8,10 @@ class DictRuleUniqueElements(DictRule):
     """The rule ensuring that a path has only unique elements.
 
     :param path: The path where the key should be present.
-    :type path: List[str]
+    :type path: List[Any]
     """
 
-    def __init__(self, path: List[str]):
+    def __init__(self, path: List[Any]):
         """Constructor method"""
         self.path = path
 

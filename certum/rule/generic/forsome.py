@@ -10,12 +10,12 @@ class DictRuleForsome(DictRule):
     of a dict or a list.
 
     :param path: The path where the keys should be presents.
-    :type path: List[str]
+    :type path: List[Any]
     :param rules: The rules that should be applied.
     :type keys: List[DictRule]
     """
 
-    def __init__(self, path: List[str], keys: List[Any], rules: List[DictRule]):
+    def __init__(self, path: List[Any], keys: List[Any], rules: List[DictRule]):
         """Constructor method"""
         self.path = path
         self.keys = keys

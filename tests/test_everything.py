@@ -4,7 +4,6 @@ from certum import ensure, that, this
 from certum.exception import CertumException
 from certum.strategy.printing.grouped import GroupedPrinting
 from certum.strategy.sorting.alphabetical import AlphabeticalSorting
-from certum.strategy.sorting.alphanumerical import AlphanumericalSorting
 from tests.utils import assert_error
 
 
@@ -23,9 +22,9 @@ def test_one():
         .respects(
             that("a").equals(2),
             that("b").is_instance_of(list),
-            that("b -> c").is_instance_of(int),
-            that("x -> a").equals(2),
-            that("x -> b").equals(4),
+            that("b", "c").is_instance_of(int),
+            that("x", "a").equals(2),
+            that("x", "b").equals(4),
         )
         .using(AlphabeticalSorting())
     )
@@ -50,9 +49,9 @@ def test_two():
         .respects(
             that("name").is_instance_of(str),
             that("entities").foreach(this.equals(1)),
-            that("nested -> value").equals(4),
+            that("nested", "value").equals(4),
         )
-        .using(GroupedPrinting(), AlphanumericalSorting())
+        .using(GroupedPrinting(), AlphabeticalSorting())
     )
 
     with pytest.raises(CertumException) as error:

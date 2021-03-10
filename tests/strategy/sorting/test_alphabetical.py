@@ -29,21 +29,21 @@ def test_alphabetical_number():
     errors = [
         Error(["x"], ""),
         Error(["a"], ""),
-        Error(["x", "11"], ""),
-        Error(["x", "2"], ""),
-        Error(["x", "007"], ""),
-        Error(["x", "128"], ""),
-        Error(["a", "210"], ""),
-        Error(["a", "3"], ""),
+        Error(["x", 11], ""),
+        Error(["x", 2], ""),
+        Error(["x", 7], ""),
+        Error(["x", 128], ""),
+        Error(["a", 210], ""),
+        Error(["a", 3], ""),
     ]
     paths = [error.path for error in AlphabeticalSorting().sort(errors)]
     assert paths == [
         ["a"],
-        ["a", "210"],
-        ["a", "3"],
+        ["a", 3],
+        ["a", 210],
         ["x"],
-        ["x", "007"],
-        ["x", "11"],
-        ["x", "128"],
-        ["x", "2"],
+        ["x", 2],
+        ["x", 7],
+        ["x", 11],
+        ["x", 128],
     ]

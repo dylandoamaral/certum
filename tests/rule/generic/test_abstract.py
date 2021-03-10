@@ -25,14 +25,14 @@ def test_target_two_depths():
 def test_target_one_depth_list():
     """Ensuring that you can target a value on a list of depth 1."""
     obj = [2]
-    rule = DictRule(["0"])
+    rule = DictRule([0])
     assert rule.target(obj) == 2
 
 
 def test_target_two_depths_list():
     """Ensuring that you can target a value on a list of depth 2."""
     obj = [[3, 2]]
-    rule = DictRule(["0", "1"])
+    rule = DictRule([0, 1])
     assert rule.target(obj) == 2
 
 
@@ -40,7 +40,7 @@ def test_target_three_depths_both():
     """Ensuring that you can target a value on a dict composed by both
     lists and dicts."""
     obj = {"a": [{"b": 2}]}
-    rule = DictRule(["a", "0", "b"])
+    rule = DictRule(["a", 0, "b"])
     assert rule.target(obj) == 2
 
 
@@ -56,7 +56,7 @@ def test_exists_failure():
 def test_exists_nested_failure():
     """Ensuring that exists error should return an assertion error."""
     obj = {}
-    validator = ensure(obj).respects(that("x -> b").exists())
+    validator = ensure(obj).respects(that("x", "b").exists())
     with pytest.raises(CertumException) as error:
         validator.check()
     assert_error(error, "[x] => The path is missing.")
