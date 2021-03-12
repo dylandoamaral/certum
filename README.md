@@ -67,7 +67,7 @@ validator = (
         that("name").is_instance_of(str),
         that("name").equals("Hello"),
         that("entities").foreach(this.equals(1)),
-        that("nested -> value").equals(4),
+        that("nested", "value").equals(4),
     )
 )
 
