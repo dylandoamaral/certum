@@ -3,10 +3,9 @@ from random import shuffle
 import pytest
 
 from certum.strategy.sorting.alphabetical import AlphabeticalSorting
-from certum.strategy.sorting.alphanumerical import AlphanumericalSorting
 from tests.utils import generate_errors
 
-startegies = [AlphabeticalSorting(), AlphanumericalSorting()]
+startegies = [AlphabeticalSorting(), AlphabeticalSorting()]
 
 
 @pytest.mark.parametrize("strategy", startegies)

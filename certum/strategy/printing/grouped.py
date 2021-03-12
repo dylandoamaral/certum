@@ -8,9 +8,6 @@ from certum.strategy.printing.abstract import PrintingStrategy
 
 @dataclass
 class GroupedPrinting(PrintingStrategy):
-
-    key_separator: str = " -> "
-
     def print(self, errors: List[Error]) -> str:
         """Print a list of errors based on the printing strategy.
 
@@ -25,7 +22,7 @@ class GroupedPrinting(PrintingStrategy):
         max_path_length = -1
         grouped_errors: Dict[str, List[str]] = OrderedDict()
         for error in errors:
-            path = self.key_separator.join(error.path)
+            path = self.key_separator.join([str(path) for path in error.path])
             if len(path) > max_path_length:
                 max_path_length = len(path)
             try:

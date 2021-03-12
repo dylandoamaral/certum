@@ -19,7 +19,7 @@ class DictRuleDsl:
     Entry point of the dsl
     """
 
-    def __init__(self, path: List[str]) -> None:
+    def __init__(self, path: List[Any]) -> None:
         """Constructor method"""
         self.path = path
 

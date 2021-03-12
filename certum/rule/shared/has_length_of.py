@@ -8,12 +8,12 @@ class DictRuleLength(DictRuleApply):
     """The rule ensuring that a path has a particular length.
 
     :param path: The path where the key should be present.
-    :type path: List[str]
+    :type path: List[Any]
     :param value: The length of the this of the path.
     :type value: int
     """
 
-    def __init__(self, path: List[str], length: int):
+    def __init__(self, path: List[Any], length: int):
         """Constructor method"""
         super().__init__(path, self._lambda)
         self.length = length

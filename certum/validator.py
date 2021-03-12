@@ -20,10 +20,10 @@ class DictValidator:
 
     .. warning:: You should always use `certum.that` to create a validator.
 
-    :param path: The path where the key should be present.
-    :type path: List[str]
-    :param key: The key itself.
-    :type key: str
+    :param dictionary: The dicitonary that needs to be evaluated.
+    :type dictionary: Optional[Dict[str, Any]]
+    :param rules: The rules that the dictionary need to respect.
+    :type rules: List[DictRule]
     :param sorting: The sorting strategy to use.
     :type sorting: SortingStrategy
     :param filtering: The filtering strategy to use.
