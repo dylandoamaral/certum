@@ -22,7 +22,7 @@ def test_is_not_empty_failure(empty):
     validator = ensure(obj).respects(that("x").is_not_empty())
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x] => The path x is empty.")
+    assert_error(error, "[x] => The target is empty.")
 
 
 def test_unknown_path():

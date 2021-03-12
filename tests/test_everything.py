@@ -33,8 +33,8 @@ def test_one():
         validator.check()
 
     errors = [
-        "[b] => The key is not instance of list but dict.",
-        "[b -> c] => The key is not instance of int but list.",
+        "[b] => The value is instance of dict, expected list.",
+        "[b -> c] => The value is instance of list, expected int.",
         "[x] => The path is missing.",
     ]
     assert_error(error, "\n".join(errors))
@@ -48,6 +48,7 @@ def test_two():
         ensure(my_obj)
         .respects(
             that("name").is_instance_of(str),
+            that("name").equals("Hello"),
             that("entities").foreach(this.equals(1)),
             that("nested", "value").equals(4),
         )
@@ -58,9 +59,10 @@ def test_two():
         validator.check()
 
     errors = [
-        "entities -> 1   => 1 is not equal to 3.",
-        "entities -> 2   => 1 is not equal to 3.",
-        "name            => The key is not instance of str but int.",
-        "nested -> value => 4 is not equal to 2.",
+        "entities -> 1   => The value is 3, expected 1.",
+        "entities -> 2   => The value is 3, expected 1.",
+        "name            => The value is 2, expected Hello.",
+        "                   The value is instance of int, expected str.",
+        "nested -> value => The value is 2, expected 4.",
     ]
     assert_error(error, "\n".join(errors))

@@ -1,8 +1,9 @@
-from typing import Any, List
+from typing import Any, Callable, List
 
 from certum.decipher import args_to_rule_decipher
 from certum.exception import CertumException
 from certum.rule.generic.abstract import DictRule
+from certum.rule.generic.apply import DictRuleApply
 from certum.rule.generic.foreach import DictRuleForeach
 from certum.rule.generic.forsome import DictRuleForsome
 from certum.rule.shared.equals import DictRuleEqual
@@ -60,6 +61,14 @@ class DictRuleDsl:
         """
         rules = args_to_rule_decipher(*args)
         return DictRuleForeach(self.path, rules)
+
+    def apply(self, fn: Callable[[Any], List[str]]) -> DictRuleApply:
+        """Check if the current path equals a value.
+
+        :return: The DictRule related with this rule.
+        :rtype: DictRuleApply
+        """
+        return DictRuleApply(self.path, fn)
 
     def is_empty(self) -> DictRuleEmpty:
         """Check if the current path is empty.

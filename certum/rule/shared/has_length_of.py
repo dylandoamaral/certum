@@ -1,10 +1,10 @@
 from typing import Any, Dict, List
 
 from certum.error import Error
-from certum.rule.generic.abstract import DictRule
+from certum.rule.generic.apply import DictRuleApply
 
 
-class DictRuleLength(DictRule):
+class DictRuleLength(DictRuleApply):
     """The rule ensuring that a path has a particular length.
 
     :param path: The path where the key should be present.
@@ -15,30 +15,26 @@ class DictRuleLength(DictRule):
 
     def __init__(self, path: List[Any], length: int):
         """Constructor method"""
-        self.path = path
+        super().__init__(path, self._lambda)
         self.length = length
 
-    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding has a particular length.
-
-        :raises AssertionError: if the path doesn't have a particular length.
-        :param dictionary: The Dict to analyse.
-        :type dictionary: Dict[str, Any]
-        :return: The list of errors catched by the rule, return empty list if
-                 no errors.
-        :rtype: List[Error]
+    def _lambda(self, value: Any) -> List[str]:
         """
-        errors = super().check(dictionary)
-        if errors:
-            return errors
+        Check if the length of an element inside the dictionary is equal to the expected
+        length.
+
+        :param value: The value from the dictionary.
+        :type value: Any
+        :return: The list of error messages.
+        :rtype: List[str]
+        """
         try:
-            _length = len(self.target(dictionary))
+            length = len(value)
         except TypeError:
             # TODO Probably add verification in case of value who is not
             # elligible with len function and return an assertion error.
-            _length = 1
-        path = " -> ".join(self.path)
-        message = f"The length of {path} is {_length}" f", expected {self.length}."
-        if _length != self.length:
-            errors.append(self.error(message))
-        return errors
+            length = 1
+
+        if length != self.length:
+            return [f"The length is {length}, expected {self.length}."]
+        return []
