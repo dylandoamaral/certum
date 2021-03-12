@@ -61,19 +61,26 @@ my_obj = {
     }
 }
 
-validator = ensure(my_obj).respects(
-    that("name").is_instance_of(str),
-    that("entities").has_unique_elements(),
-    that("nested -> value").equals(4)
+validator = (
+    ensure(my_obj)
+    .respects(
+        that("name").is_instance_of(str),
+        that("name").equals("Hello"),
+        that("entities").foreach(this.equals(1)),
+        that("nested -> value").equals(4),
+    )
+    .using(GroupedPrinting(), AlphanumericalSorting())
 )
 
 validator.check()
 
 # certum.exception.CertumException: 
 
-# [name] => The key is not instance of str but int.
-# [nested -> value] => 4 is not equal to 2.
-# [entities] => The row 1 and 2 are the same.
+# [name] => The value is instance of int, expected str.
+# [name] => The value is 2, expected Hello.
+# [entities -> 2] => The value is 3, expected 1.
+# [entities -> 1] => The value is 3, expected 1.
+# [nested -> value] => The value is 2, expected 4.
 ```
 
 ### Strategies
@@ -88,7 +95,13 @@ from certum.strategy.printing.grouped import GroupedPrinting
 from certum.strategy.sorting.alphanumerical import AlphanumericalSorting
 
 
-my_obj = {"name": 2, "entities": [1, 3, 3], "nested": {"value": 2}}
+my_obj = {
+    "name": 2,
+    "entities": [1, 3, 3],
+    "nested": {
+        "value": 2
+    }
+}
 
 validator = (
     ensure(my_obj)
@@ -105,9 +118,9 @@ validator.check()
 
 # certum.exception.CertumException: 
 
-# entities -> 1   => 1 is not equal to 3.
-# entities -> 2   => 1 is not equal to 3.
-# name            => Hello is not equal to 2.
-#                    The key is not instance of str but int.
-# nested -> value => 4 is not equal to 2.
+# entities -> 1   => The value is 3, expected 1.
+# entities -> 2   => The value is 3, expected 1.
+# name            => The value is 2, expected Hello.
+#                    The value is instance of int, expected str.
+# nested -> value => The value is 2, expected 4.
 ```

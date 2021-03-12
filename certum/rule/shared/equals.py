@@ -1,10 +1,10 @@
 from typing import Any, Dict, List
 
 from certum.error import Error
-from certum.rule.generic.abstract import DictRule
+from certum.rule.generic.apply import DictRuleApply
 
 
-class DictRuleEqual(DictRule):
+class DictRuleEqual(DictRuleApply):
     """The rule ensuring that a path has a particular value.
 
     :param path: The path where the key should be present.
@@ -15,24 +15,18 @@ class DictRuleEqual(DictRule):
 
     def __init__(self, path: List[str], value: Any):
         """Constructor method"""
-        self.path = path
+        super().__init__(path, self._lambda)
         self.value = value
 
-    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding dictionary equal a value.
-
-        :raises AssertionError: if the path doesn't equal the value.
-        :param dictionary: The Dict to analyse.
-        :type dictionary: Dict[str, Any]
-        :return: The list of errors catched by the rule, return empty list if
-                 no errors.
-        :rtype: List[Error]
+    def _lambda(self, value: Any) -> List[str]:
         """
-        errors = super().check(dictionary)
-        if errors:
-            return errors
-        _value = self.target(dictionary)
-        message = f"{self.value} is not equal to {_value}."
-        if _value != self.value:
-            errors.append(self.error(message))
-        return errors
+        Check if the value inside the dictionary is equal to the expected value.
+
+        :param value: The value from the dictionary.
+        :type value: Any
+        :return: The list of error messages.
+        :rtype: List[str]
+        """
+        if value != self.value:
+            return [f"The value is {value}, expected {self.value}."]
+        return []

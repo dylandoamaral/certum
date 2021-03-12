@@ -1,10 +1,10 @@
 from typing import Any, Dict, List
 
 from certum.error import Error
-from certum.rule.generic.abstract import DictRule
+from certum.rule.generic.apply import DictRuleApply
 
 
-class DictRuleInstanceOf(DictRule):
+class DictRuleInstanceOf(DictRuleApply):
     """The rule ensuring that a path is instance of a type type_.
 
     :param path: The path that should be of type type_.
@@ -15,29 +15,20 @@ class DictRuleInstanceOf(DictRule):
 
     def __init__(self, path: List[str], type_: type):
         """Constructor method"""
-        self.path = path
+        super().__init__(path, self._lambda)
         self.type_ = type_
 
-    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding dictionary is instance of a type.
-
-        :raises AssertionError: if the path isn't instance of the type type_.
-        :param dictionary: The Dict to analyse.
-        :type dictionary: Dict[str, Any]
-        :return: The list of errors catched by the rule, return empty list if
-                 no errors.
-        :rtype: List[Error]
+    def _lambda(self, value: Any) -> List[str]:
         """
-        errors = super().check(dictionary)
-        if errors:
-            return errors
-        value = self.target(dictionary)
-        path = " -> ".join(self.path)
-        real_type = type(value)
-        message = (
-            f"The key is not instance of {self.type_.__name__} "
-            f"but {real_type.__name__}."
-        )
-        if real_type != self.type_:
-            errors.append(self.error(message))
-        return errors
+        Check if the value inside the dictionary is instance of type_.
+
+        :param value: The value from the dictionary.
+        :type value: Any
+        :return: The list of error messages.
+        :rtype: List[str]
+        """
+        real_type = type(value).__name__
+        expected_type = self.type_.__name__
+        if real_type != expected_type:
+            return [f"The value is instance of {real_type}, expected {expected_type}."]
+        return []

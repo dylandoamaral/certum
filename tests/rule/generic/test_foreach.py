@@ -20,7 +20,7 @@ def test_foreach_dict_failure():
     validator = ensure(obj).respects(that("x").foreach(rule))
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x -> c] => 2 is not equal to 3.")
+    assert_error(error, "[x -> c] => The value is 3, expected 2.")
 
 
 def test_foreach_list_success():
@@ -38,7 +38,7 @@ def test_foreach_list_failure():
     validator = ensure(obj).respects(that("x").foreach(rule))
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x -> 2] => 2 is not equal to 3.")
+    assert_error(error, "[x -> 2] => The value is 3, expected 2.")
 
 
 def test_foreach_list_path_success():

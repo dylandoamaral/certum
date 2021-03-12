@@ -18,7 +18,7 @@ def test_has_length_of_list_failure():
     validator = ensure(obj).respects(that("x").has_length_of(2))
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x] => The length of x is 3, expected 2.")
+    assert_error(error, "[x] => The length is 3, expected 2.")
 
 
 def test_has_length_of_dict_success():
@@ -34,7 +34,7 @@ def test_has_length_of_dict_failure():
     validator = ensure(obj).respects(that("x").has_length_of(2))
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x] => The length of x is 3, expected 2.")
+    assert_error(error, "[x] => The length is 3, expected 2.")
 
 
 def test_has_length_of_other_success():

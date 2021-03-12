@@ -21,7 +21,7 @@ def test_forsome_dict_failure():
     validator = ensure(obj).respects(that("x").forsome(rule, keys=["a", "b", "c"]))
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x -> c] => 2 is not equal to 3.")
+    assert_error(error, "[x -> c] => The value is 3, expected 2.")
 
 
 def test_forsome_list_success():
@@ -39,7 +39,7 @@ def test_forsome_list_failure():
     validator = ensure(obj).respects(that("x").forsome(rule, keys=[0, 1, 2]))
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x -> 2] => 2 is not equal to 3.")
+    assert_error(error, "[x -> 2] => The value is 3, expected 2.")
 
 
 def test_forsome_list_path_success():
@@ -61,7 +61,10 @@ def test_forsome_hybrid_success_and_failure():
     )
     with pytest.raises(CertumException) as error:
         validator.check()
-    errors = ["[x -> b] => 2 is not equal to 3.", "[x -> d] => The path is missing."]
+    errors = [
+        "[x -> b] => The value is 3, expected 2.",
+        "[x -> d] => The path is missing.",
+    ]
     assert_error(error, "\n".join(errors))
 
 

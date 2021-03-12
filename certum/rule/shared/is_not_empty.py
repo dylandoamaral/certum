@@ -5,7 +5,7 @@ from certum.rule.generic.abstract import DictRule
 from certum.rule.shared.is_empty import DictRuleEmpty
 
 
-class DictRuleNotEmpty(DictRule):
+class DictRuleNotEmpty(DictRuleEmpty):
     """The rule ensuring that a path is not empty.
 
     :param path: The path that should not be empty.
@@ -14,27 +14,22 @@ class DictRuleNotEmpty(DictRule):
 
     def __init__(self, path: List[str]):
         """Constructor method"""
-        self.path = path
+        super().__init__(path)
 
-    def check(self, dictionary: Dict[str, Any]) -> List[Error]:
-        """Check if the path from the corresponding dictionary is not empty.
-
-        Embedded rules:
-            - :class:`certum.rule.shared.is_empty.DictRuleEmpty`
-
-        :raises AssertionError: if the path is empty.
-        :param dictionary: The Dict to analyse.
-        :type dictionary: Dict[str, Any]
-        :return: The list of errors catched by the rule, return empty list if
-                 no errors.
-        :rtype: List[Error]
+    def _lambda(self, value: Any) -> List[str]:
         """
-        errors = super().check(dictionary)
+        Check if the value is not empty.
+
+        .. note::
+
+            A value is considered as empty if it is one of "", None, [], {}
+
+        :param value: The value from the dictionary.
+        :type value: Any
+        :return: The list of error messages.
+        :rtype: List[str]
+        """
+        errors = super()._lambda(value)
         if errors:
-            return errors
-        path = " -> ".join(self.path)
-        message = f"The path {path} is empty."
-        error = DictRuleEmpty(self.path).check(dictionary)
-        if not error:
-            errors.append(self.error(message))
-        return errors
+            return []
+        return ["The target is empty."]
