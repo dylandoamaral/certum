@@ -5,17 +5,17 @@ from certum.exception import CertumException
 from tests.utils import assert_error
 
 
-def test_equals_success():
+def test_is_one_of_success():
     """Ensuring that x is equal to 2."""
     obj = {"x": 2}
-    validator = ensure(obj).respects(that("x").equals(2))
+    validator = ensure(obj).respects(that("x").is_one_of([1, 2, 3]))
     validator.check()
 
 
-def test_equals_failure():
+def test_is_one_of_failure():
     """Ensuring that x is equal to 2 throw an assertion error."""
-    obj = {"x": 3}
-    validator = ensure(obj).respects(that("x").equals(2))
+    obj = {"x": 4}
+    validator = ensure(obj).respects(that("x").is_one_of([1, 2, 3]))
     with pytest.raises(CertumException) as error:
         validator.check()
-    assert_error(error, "[x] => The value is 3, expected 2.")
+    assert_error(error, "[x] => The value is 4, expected one of 1, 2, 3.")

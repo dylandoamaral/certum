@@ -12,6 +12,7 @@ from certum.rule.shared.has_unique_elements import DictRuleUniqueElements
 from certum.rule.shared.is_empty import DictRuleEmpty
 from certum.rule.shared.is_instance_of import DictRuleInstanceOf
 from certum.rule.shared.is_not_empty import DictRuleNotEmpty
+from certum.rule.shared.is_one_of import DictRuleOneOf
 
 
 class DictRuleDsl:
@@ -121,3 +122,11 @@ class DictRuleDsl:
         :rtype: DictRuleEqual
         """
         return DictRuleEqual(self.path, value)
+
+    def is_one_of(self, values: List[Any]) -> DictRuleEqual:
+        """Check if the current path is one of a list of possible values.
+
+        :return: The DictRule related with this rule.
+        :rtype: DictRuleEqual
+        """
+        return DictRuleOneOf(self.path, values)
