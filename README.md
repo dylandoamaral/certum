@@ -15,7 +15,11 @@ Certum comes with the following features:
 
 ## Using Certum
 
-You can't use certum package for the moment, coming soon.
+```bash
+pip install certum
+```
+
+:warning: The version is currently in alpha which means that I authorize myself to include breaking changes until I decide that the module is stable.  
 
 ## How it works
 
